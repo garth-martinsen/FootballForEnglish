@@ -1,0 +1,22 @@
+0em = left-most edge of field.
+15em= 25 meters from left edge of field.
+31em = mid-field
+47em = 25 meters from right edge of field.
+62.5em = right edge of field
+5em = top of field:
+29.5em = bottom of field
+17em = mid-field
+
+so center of field is at 31em, 17em.
+
+the style of the ball image must be:
+{
+  position:relative;
+  display:block;
+  top: 17em;
+  left: one of {0, 15, 31, 47, 62}em;// depending on position of the ball.
+}
+
+//Use a <%=bp%> in the style to shift the ball from the server.
+Note: I have found it easier to use px in lieu of em. close to 0, 250, 500, 750, 1000 px.
+

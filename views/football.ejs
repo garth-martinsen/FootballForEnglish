@@ -1,0 +1,67 @@
+<!--File: football.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<style>
+H1 { text-align: center; width:1000px; font-size: 2.17em;margin-left: 100px;}
+#outer {
+        position: absolute;
+        background-color: lightgreen;
+        height: 800px;
+        width: 1200px;
+        right:100px;
+        top:100px;
+        z-index: 0;
+       }
+.arrow {position: relative; left:570px; }
+#al  { top:-780px; visibility: 'visible'}
+#ar { top:-860px; visibility: <%=arv%>} 
+#field {
+         margin:100px;
+         float:left;
+         width:1000px;
+         height:600px;
+         background-color:white;
+       }
+.qf {
+    width: 250px;
+    height: 600px;
+    float: left;
+    z-index:2;
+}
+#ball {width:30px; height:30px}
+#goal {width:30px; height:90px}
+#b {
+         position:relative;
+         top:  -553px;
+         left: <%=bp %>px;
+         z-index:5;
+      }
+#g1{ position:relative; top: -615px; left: 69px; }
+#g2{ position:relative; top: -700px; left: 1095px;}
+.button {position:relative; float: left; margin:2px; top:-1100px;}
+#dir { left: 800px;}
+#adv { left: 820px;}
+</style>
+</head>
+
+<body class="container">
+ <H1><%= name %></H1>
+    <div id="outer" >
+      <div id="field">
+       <img id="qfa" class="qf" src="/images/quarterFieldA.png"><img id="qfb" class="qf" src="/images/quarterFieldB2.png"><img id="qfc" class="qf"  src="/images/quarterFieldC.png"><img id="qfd"  class="qf" src="/images/quarterFieldD.png">
+      </div>
+      <div id="al" class="arrow"> <img id="arrowLeft" src="/images/arrowLeft.png" ></div>
+      <div id="ar" class="arrow" > <img id="arrowRight" src="/images/arrowRight.png" ></div>
+      <div id="b"  > <img id="ball" src="/images/ball.png" ></div>
+      <div id="g1" > <img id="goal" src="/images/soccerGoal.png"></div>
+      <div id="g2" > <img id="goal" src="/images/soccerGoal.png"></div>
+      <div id='buttons'>
+        <input type="button" class= "button" value="Change Direction" id="dir"/>
+        <input type="button" class= "button" value="Advance" id="adv"/>
+      </div>
+   </div>
+</body>
+</html>
