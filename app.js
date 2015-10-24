@@ -28,8 +28,7 @@ var express = require('express')
   // display the main screen with the links to choices of action.	
    app.get('/', function(req, res){
      res.render('football', { 'name' : 'Football for English',
-                               'bp':580,
-                               'arv':'visible'   //if right arrow is hidden, left arrow is displayed. 
+                               'remaining':44,
                             }
                );
    });
