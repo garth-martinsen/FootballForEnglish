@@ -1,0 +1,26 @@
+> db.questions.find().pretty()
+{
+	"_id" : ObjectId("56266a5455a97b1d11d44837"),
+	"count" : 100,
+	"q" : "Tiempo: Quando tiene sol sin nuben, y sin viento, que dice en englais?",
+	"a" : "The weather is sunny."
+}
+{
+	"_id" : ObjectId("56266ae055a97b1d11d44838"),
+	"count" : 99,
+	"q" : "Tiempo:Quando tiene  nuben y no puede ver el sol, que dice en englais? ",
+	"a" : "The weather is cloudy."
+}
+{
+	"_id" : ObjectId("56266b3155a97b1d11d44839"),
+	"count" : 98,
+	"q" : "Tiempo:Quando tiene mui viento, que dice en englais? ",
+	"a" : "The weather is windy."
+}
+{
+	"_id" : ObjectId("56266c3055a97b1d11d4483a"),
+	"count" : 97,
+	"q" : "Tiempo:Quando temperatua es bajo, que dice en englais?",
+	"a" : "The weather is cold."
+}
+

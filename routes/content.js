@@ -41,6 +41,8 @@ function asNumber(str){
                 , pxpos: ballPositions[ballLocation]
                 , leftArrowIsVisible: 0
                 , ballDirection : 0
+                , scoreA : scoreA
+                , scoreB : scoreB
               }
             );
  }//function
@@ -51,10 +53,14 @@ function asNumber(str){
            var bl =req.body.ballLocation.match(/[0-9]+/g);  
            var bd =req.body.ballDirection.match(/[-0-9]+/g);  
            var pss = req.body.leftArrowIsVisible.match(/[0-9]+/g); // This will be a zero(show RightArrow) or a one (show LeftArrow).
+           var sA =req.body.scoreA.match(/[-0-9]+/g);  
+           var sB =req.body.scoreB.match(/[-0-9]+/g);  
            var count = Number(cnt[0]);
            var ballLocation = Number(bl[0]);
            var ballDirection = Number(bd[0]);
            var poss = Number(pss[0]);
+           var scoreA = Number(sA[0]);
+           var scoreB = Number(sB[0]);
 //           console.log('Entered content.displayChangePossession poss: ' + poss + ', direction: ' + ballDirection + ' with location: ' + ballLocation );
            var leftArrowIsVisible = (poss ^ 1); 
            ballDirection = - ballDirection;
@@ -74,6 +80,8 @@ function asNumber(str){
                 , pxpos: ballPositions[ballLocation]
                 , leftArrowIsVisible: leftArrowIsVisible
                 , ballDirection : ballDirection
+                , scoreA : scoreA
+                , scoreB : scoreB
                }
            );
  }//function
@@ -82,14 +90,18 @@ function asNumber(str){
  this.displayAdvance = function(req, res, next) {
         "use strict";
            var bl= (req.body.ballLocation).match(/[0-9]+/g);
-           var ballLocation = Number(bl[0]);
            var bd= (req.body.ballDirection).match(/[-0-9]+/g);
-           var ballDirection = Number(bd[0]);
            var cnt = req.body.remaining.match(/[0-9]+/g);
            var pss = req.body.leftArrowIsVisible.match(/[0-9]+/g);
+           var sA =req.body.scoreA.match(/[-0-9]+/g);  
+           var sB =req.body.scoreB.match(/[-0-9]+/g);  
            //console.log('Count: ' + cnt + ' leftIsVisible: '+ pss);
+           var ballLocation = Number(bl[0]);
+           var ballDirection = Number(bd[0]);
            var count = Number(cnt[0]); 
            var poss = Number(pss[0]);
+           var scoreA = Number(sA[0]);
+           var scoreB = Number(sB[0]);
  //          console.log('Entered displayAdvance from: ' + ballLocation + ' in direction: ' + ballDirection + ' questionsRemaining: ' + count );
            if( ballDirection === 1){
              ballLocation +=1; }
@@ -99,6 +111,10 @@ function asNumber(str){
              console.log('Error. BallDirection is: ' + ballDirection);}
            //After moving check if ball is in Goal. If so, change directions.
            if((ballLocation === 0 && ballDirection===-1) || (ballLocation === 4)&&(ballDirection===1)) {
+             if(ballDirection === -1) { 
+               scoreA += 1;}
+             else if(ballDirection ===1) {
+               scoreB += 1;}
              ballDirection = -ballDirection;
              poss = poss^1;
             }else {
@@ -118,16 +134,22 @@ function asNumber(str){
                 , pxpos: ballPositions[ballLocation] 
                 , leftArrowIsVisible : poss 
                 , ballDirection : ballDirection
+                , scoreA : scoreA
+                , scoreB : scoreB
             });
  }//function
 /* ------------------------
  this.displayQuestions = function(req, res, next) {
 
         "use strict";
+           var sA =req.body.scoreA.match(/[-0-9]+/g);  
+           var sB =req.body.scoreB.match(/[-0-9]+/g);  
            var ballLocation = req.body.ballLocation;
            var count = req.body.count;
            console.log('Entered displayQuestions from: ' + ballLocation + ' with count: ' + count );
            var poss = req.body.leftArrowIsVisible;
+           var scoreA = Number(sA[0]);
+           var scoreB = Number(sB[0]);
            questions.getTwo(count, function(err, questions){
               if(err) throw err;
               players.getTwo(ballLocation, function(err, playrs){
@@ -144,6 +166,8 @@ function asNumber(str){
                 ,ballLocation: ballLocation
                 ,pxpos: ballPositions[ballLocation] 
                 ,leftArrowIsVisible: poss
+                , scoreA : scoreA
+                , scoreB : scoreB
            }
            ); //render
           }); //playrs

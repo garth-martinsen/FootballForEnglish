@@ -41,6 +41,8 @@ var express = require('express')
                                , pxpos: ballPositions[0]
                                , leftArrowIsVisible : 0
                                , ballDirection : 1
+                               , scoreA : 0
+                               , scoreB : 0
                             }
                );
    });
