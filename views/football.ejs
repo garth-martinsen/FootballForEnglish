@@ -42,9 +42,9 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
 #buttons {position: absolute; float: left; left: 900px; top: 140px;}
 .button {margin:2px;}
 #timer {position: absolute; top: 140px; left: 240px; width: 50px; height: 40px; background-color:white; font-size: xx-large; }
-#scores{ top:400px }
-#scoreA   {position:absolute; top:400px;  left: 250px; }
-#scoreB   {position:absolute; top:400px;  left: 1350px; }
+#scores{ font-size: x-large; }
+#scoreA   {position:absolute; top:400px;  left: 210px; >; }
+#scoreB   {position:absolute; top:400px;  left: 1350px; >;}
 .scoreInput {width:25px;  font-size: x-large;}
 #quest { }
 #contestants {margin: 5px; position: absolute; left: 50px; top: 700px; width: 1090px;}
@@ -106,10 +106,10 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
       <div id="timer" name="remaining" ><%=remaining%></div>
       <div id="scores" >
        <div id="scoreA">
-          A <input type="text" name="scoreA"  class= "scoreInput" value=<%=scoreA%>>
+          A <input type="text" name="scoreA"  readonly class="scoreInput" value=<%=scoreA%>>
       </div>
       <div id="scoreB">
-          B <input type="text" name="scoreB" class= "scoreInput" value=<%=scoreB%>>
+          B <input type="text" name="scoreB"  readonly class="scoreInput" value=<%=scoreB%>>
       </div>
      </div>
       <div id='buttons'>
