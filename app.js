@@ -8,6 +8,7 @@ var express = require('express')
 //  app.set('images', __dirname + '/public/images');
   var app = express();
   app.use(express.static('public'));
+  var ballPositions = ['68px','340px','580px','850px','1100px']
 
   console.log()
   console.log('*************************************************')
@@ -27,15 +28,25 @@ var express = require('express')
 
   // display the main screen with the links to choices of action.	
    app.get('/', function(req, res){
-     res.render('football', { 'name' : 'Football for English',
-                               'remaining':44,
+     res.render('football', { 
+                                'name' : 'Football for English'
+                               ,'remaining':100
+                               ,'playerA': "Garth_Martinsen"
+                               ,'playerB': "Betty_Martinsen"
+                               ,'questionA': "What_is_the_opposite_of_Tall?"
+                               ,'questionB': "What_is_the_opposite_of_Up?"
+                               , answerA: 'The_opposite_of_Tall_is_Short.'
+                               , answerB:'The_opposite_of_Up_is_Down.' 
+                               , ballLocation: 0
+                               , pxpos: ballPositions[0]
+                               , leftArrowIsVisible : 0
+                               , ballDirection : 1
                             }
                );
    });
 
-
    // Define Application routes ---------------------
-//   routes(app, db)
+   routes(app, db)
 
    //Error when page not found
    app.use(function onerror( err, req, res, next) {

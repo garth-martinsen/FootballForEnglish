@@ -3,12 +3,12 @@
 
 function routes (app, db) {
     console.log('Entered index.js function.')
-//    var contentHandler = new ContentHandler(db, app.url);
+    var contentHandler = new ContentHandler(db, app.url);
     console.log('in routes, the  url :' +  app.url);
     app.get('/', contentHandler.displayMainPage);
 
-//  app.post('/viewreportx', contentHandler.displayReportx);
-
-    console.log('Finished index.js function.')
+   app.post('/possession', contentHandler.displayChangePossession);
+   app.post('/advance', contentHandler.displayAdvance);
+   console.log('Finished index.js function.')
 }
 module.exports = routes
