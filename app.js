@@ -29,7 +29,7 @@ var express = require('express')
   // display the main screen with the links to choices of action.	
    app.get('/', function(req, res){
      res.render('football', { 
-                                'name' : 'Football for English'
+                                'name' : 'Copa Americas de English'
                                ,'remaining':100
                                ,'playerA': "Garth_Martinsen"
                                ,'playerB': "Betty_Martinsen"

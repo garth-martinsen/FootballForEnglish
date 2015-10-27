@@ -16,7 +16,7 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
         z-index: 0;
        }
 #arrows {position: absolute; top: 130px; left: 650px;}
-#arrowLeft   { position:absolute; z-index: leftArrowIsVisible }
+#arrowLeft   { position:absolute; z-index: leftArrowIsVisible  }
 #arrowRight  { position:absolute; } 
 #field {
          margin:100px;
@@ -41,11 +41,12 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
 #g2{ position:absolute; top: 360px; left: 1098px; ;width:30px; height:90px}
 #buttons {position: absolute; float: left; left: 900px; top: 140px;}
 .button {margin:2px;}
-#timer {position: absolute; top: 140px; left: 240px; width: 50px; height: 40px; background-color:white; font-size: xx-large; }
-#scores{ font-size: x-large; }
-#scoreA   {position:absolute; top:400px;  left: 210px; >; }
-#scoreB   {position:absolute; top:400px;  left: 1350px; >;}
-.scoreInput {width:25px;  font-size: x-large;}
+#timer {position: absolute; top: 140px; left: 340px; width: 150px; height: 40px; font-size: xx-large; }
+#falta {position: absolute; font-size: x-large; width: 50px;    text-align: center;
+} #scores{ font-size: x-large; }
+#scoreA {position: absolute; top: 0em; left: 0em; background-color: aqua; font-size: 2em; width: 6em;}
+#scoreB {position: absolute; top: 1.3em; left: 0em; background-color: #FF1800; font-size: 2em; width: 6em; }
+.scoreInput { position: absolute; left: 4em; width: 1em; font-size: 1.1em; }
 #quest { }
 #contestants {margin: 5px; position: absolute; left: 50px; top: 700px; width: 1090px;}
 .team {margin-top:10px; margin-bottom:10px;}
@@ -103,13 +104,13 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
         <img id="arrowLeft" src="/images/arrowLeft.png" z-index=' <%=leftArrowIsVisible%>' >
         <img id="arrowRight" src="/images/arrowRight.png" >
       </div>
-      <div id="timer" name="remaining" ><%=remaining%></div>
+      <div id="timer" name="remaining" >Falta:<input type="text" id="falta" value = <%=remaining%> width= 50px readonly ></div>
       <div id="scores" >
        <div id="scoreA">
-          A <input type="text" name="scoreA"  readonly class="scoreInput" value=<%=scoreA%>>
+          Argentina <input type="text" name="scoreA"  readonly class="scoreInput" value=<%=scoreA%>>
       </div>
       <div id="scoreB">
-          B <input type="text" name="scoreB"  readonly class="scoreInput" value=<%=scoreB%>>
+          Chile <input type="text" name="scoreB"  readonly class="scoreInput" value=<%=scoreB%>>
       </div>
      </div>
       <div id='buttons'>
@@ -120,7 +121,7 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
    </div>
 </form>
 <script>
-var ballPositions =['68px','340px','580px','850px','1100px'] 
+   var ballPositions =['68px','340px','580px','850px','1100px'] 
 </script>
 </body>
 </html>

@@ -123,7 +123,7 @@ function asNumber(str){
           console.log('...Advanced to: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count + ' poss: ' + poss);
             return res.render('football', {
                   name : 'Football for English'
-                , remaining: (count -2)
+                , remaining: count 
                 , playerA: 'Mickey_Mouse'
                 , playerB: 'Donald_Duck'
                 , questionA: 'AQuestion' 
