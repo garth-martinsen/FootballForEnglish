@@ -1,0 +1,10 @@
+{"_id":{"$oid":"56278ca36bcef3b7e97a33af"},"name":"Raul Suarez","position":1,"team":"Argentina","warnings":0}
+{"_id":{"$oid":"56278ca36bcef3b7e97a33b0"},"name":"Gabe Galeano","position":2,"team":"Argentina","warnings":0}
+{"_id":{"$oid":"56278ca36bcef3b7e97a33b1"},"name":"Juan Gabriel Espinosa","position":3,"team":"Argentina","warnings":0}
+{"_id":{"$oid":"56278ca36bcef3b7e97a33b2"},"name":"Pablo Dominguez","position":4,"team":"Argentina","warnings":0}
+{"_id":{"$oid":"56278ca36bcef3b7e97a33b3"},"name":"Juan Manuel Dopazo","position":5,"team":"Argentina","warnings":0}
+{"_id":{"$oid":"56278ca36bcef3b7e97a33b4"},"name":"Mickey Mouse","position":1,"team":"Chile","warnings":0}
+{"_id":{"$oid":"56278ca36bcef3b7e97a33b5"},"name":"Donald Duck","position":2,"team":"Chile","warnings":0}
+{"_id":{"$oid":"56278ca36bcef3b7e97a33b6"},"name":"Daisy Duck","position":3,"team":"Chile","warnings":0}
+{"_id":{"$oid":"56278ca36bcef3b7e97a33b7"},"name":"Super Mouse","position":5,"team":"Chile","warnings":0}
+{"_id":{"$oid":"56278ca36bcef3b7e97a33b8"},"name":"Dark Wing Duck","position":4,"team":"Chile","warnings":0}
