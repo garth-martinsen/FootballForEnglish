@@ -8,8 +8,20 @@ var express = require('express')
 //  app.set('images', __dirname + '/public/images');
   var app = express();
   app.use(express.static('public'));
-  var ballPositions = ['68px','340px','580px','850px','1100px']
-
+  app.ballPositions= ["-349px","-116px","163px","454px","676px" ];
+  var params= {
+   'name' : 'Americas Cup of English' 		// <%= name %>
+   ,'remaining':100				//<%=remaining%> 
+   , scoreA : 0					//<%=scoreA%>
+   , scoreB : 0					//<%=scoreB%>
+   ,'team' : 'team'				//'<%=team%>'
+   ,'questionA': "What is the opposite of Tall?"//'<%=questionA%>'
+   , answerA: 'The opposite of Tall is Short.'	//'<%=answerA%>'
+   , ballLocation: 0				//<%=ballLocation%>
+   , pxpos: app.ballPositions[0]		//'<%=pxpos%>'
+   , ballDirection : 1				//<%=ballDirection%>
+   , leftArrowIsVisible : 0			//<%=leftArrowIsVisible%>'
+ };
   console.log()
   console.log('*************************************************')
   console.log('OS arch:' + JSON.stringify(os.arch()));
@@ -28,24 +40,9 @@ var express = require('express')
 
   // display the main screen with the links to choices of action.	
    app.get('/', function(req, res){
-     res.render('football', { 
-                                'name' : 'Copa Americas de English'
-                               ,'remaining':100
-                               ,'playerA': "Garth_Martinsen"
-                               ,'playerB': "Betty_Martinsen"
-                               ,'questionA': "What_is_the_opposite_of_Tall?"
-                               ,'questionB': "What_is_the_opposite_of_Up?"
-                               , answerA: 'The_opposite_of_Tall_is_Short.'
-                               , answerB:'The_opposite_of_Up_is_Down.' 
-                               , ballLocation: 0
-                               , pxpos: ballPositions[0]
-                               , leftArrowIsVisible : 0
-                               , ballDirection : 1
-                               , scoreA : 0
-                               , scoreB : 0
-                            }
-               );
+     res.render('football', params);
    });
+
 
    // Define Application routes ---------------------
    routes(app, db)

@@ -1,0 +1,41 @@
+
+1. The game starts on the left. Right now, Chile gets the ball.
+
+2. Kicks from the goal are not challenged but must have a correct answer to advance.
+
+3. All other kicks are contested by the opposing team.
+
+4. Possessing Team(P) answers question about English. Opposing Team(O) answers question about English.
+
+5. The ball may be in states: (commencement, advancement, contest, score, gameOver )
+
+6. In advancement State: Ball movement and possession.  If:
+        P:Incorrect and O:Incorrect (0,0)       Try again until one side misses their question.
+	P:Correct and O: Incorrect: (1,0)	Ball advances
+        P:Correct and O: Correct:   (1,1) 	Try again until one side misses their question.
+	P:Incorrect and O: Correct: (0,1)	Transition to Contest state, 
+
+7. In Contest state:  Transition to this state caused by  (0,1) in advancement state. 
+        P:Incorrect and O:Incorrect (0,0)       Try again until only one side misses their question.
+	P:Incorrect and O: Correct: (0,1)	Other team gains possession. Ball direction changes.
+	P:Correct and O: Incorrect: (1,0)	Possessing Team  keeps the ball.
+        P:Correct and O: Correct:   (1,1) 	Try again until only one side misses their question.
+
+8. score state happens when the ball is in the net. The ball reverses direction, which gives possession to other team.
+
+9. Each set of questions will decrement the Falta by 2. So in essence, the Falta starts at 100 and goes to zero.
+
+10. When Falta: 0, the game is over.
+
+11. When the ball enters the net, the score of the possessing team is incremented by 1.
+
+12. Future: When the ball changes possession, the arrow will change directions. (Not currently working).
+
+13. The questions will appear in the Text input at the bottom of the screen for each side(Not currently working).
+
+14. Using questions from a Notebook, The game can be played at the current time.
+
+15. To invove the younger kids, we allowed the team to help a player, so, for the current time, it is really 
+    a team question and not a player question on each advance and on each challenge.
+
+       

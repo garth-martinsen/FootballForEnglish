@@ -3,7 +3,7 @@
 31em = mid-field
 47em = 25 meters from right edge of field.
 62.5em = right edge of field
-5em = top of field:
+5em = top of field
 29.5em = bottom of field
 17em = mid-field
 
@@ -17,6 +17,4 @@ the style of the ball image must be:
   left: one of {0, 15, 31, 47, 62}em;// depending on position of the ball.
 }
 
-//Use a <%=bp%> in the style to shift the ball from the server.
-Note: I have found it easier to use px in lieu of em. close to 0, 250, 500, 750, 1000 px.
-
+//Use a <%=pos%> in the style to shift the ball from the programming.

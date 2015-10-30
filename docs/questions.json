@@ -1,0 +1,57 @@
+{"_id":{"$oid":"5630be1087cd8127c342828c"},"a":"The weather is sunny.","count":52,"q":"Quando tiene sol sin nuben, How is the weather?","type":"Tiempo"}
+{"_id":{"$oid":"5630be1087cd8127c342828d"},"a":"The weather is cloudy.","count":56,"q":"Quando tiene  nuben y no puede ver el sol, How is the weather?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5630be1087cd8127c342828e"},"a":"The weather is windy.","count":55,"q":"Quando tiene mui viento, How is the weather? ","type":"Tiempo"}
+{"_id":{"$oid":"5630be1087cd8127c342828f"},"a":"The weather is cold.","count":54,"q":"Quando temperatua es bajo, How is the weather?","type":"Tiempo"}
+{"_id":{"$oid":"5630be1087cd8127c3428290"},"a":"The weather is Foggy.","count":53,"q":"Quando tiene niebla en la faz de la tierra,  How is the weather?","type":"Tiempo"}
+{"_id":{"$oid":"5630be1087cd8127c3428291"},"a":"plate","count":100,"q":"En Ingles, como se chama plata?","type":"Cocina"}
+{"_id":{"$oid":"5630be1087cd8127c3428292"},"a":"cup","count":99,"q":"En Ingles, como se chama copa?","type":"Cocina"}
+{"_id":{"$oid":"5630be1087cd8127c3428293"},"a":"Fork","count":98,"q":"En Ingles, como se chama tenedor?","type":"Cocina"}
+{"_id":{"$oid":"5630be1087cd8127c3428294"},"a":"Spoon","count":97,"q":"En Ingles, como se chama cuchara?","type":"Cocina"}
+{"_id":{"$oid":"5630be1087cd8127c3428295"},"a":"Knife","count":96,"q":"En Ingles, como se chama cochillo?","type":"Cocina"}
+{"_id":{"$oid":"5630be1087cd8127c3428296"},"a":"glass","count":95,"q":"En Ingles, como se chama vaso?","type":"Cocina"}
+{"_id":{"$oid":"5630be1087cd8127c3428297"},"a":"Table","count":94,"q":"En Ingles, como se chama mesa?","type":"Cocina"}
+{"_id":{"$oid":"5630be1087cd8127c3428298"},"a":"Cheese","count":93,"q":"En Ingles, como se chama queso?","type":"Cocina"}
+{"_id":{"$oid":"5630be1087cd8127c3428299"},"a":"Eggs","count":92,"q":"En Ingles, como se chama huevos?","type":"Cocina"}
+{"_id":{"$oid":"5630be1087cd8127c342829a"},"a":"Milk","count":91,"q":"En Ingles, como se chama leche?","type":"Cocina"}
+{"_id":{"$oid":"5630be1087cd8127c342829b"},"a":"Cake","count":90,"q":"En Ingles, como se chama pastel?","type":"Cocina"}
+{"_id":{"$oid":"5630be1087cd8127c342829c"},"a":"Pie","count":89,"q":"En Ingles, como se chama tarta?","type":"Cocina"}
+{"_id":{"$oid":"5633a2fd87cd8127c342829d"},"a":"Mother","count":68,"q":"En Ingles, como se diz Madre?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633a2fd87cd8127c342829e"},"a":"Father","count":67,"q":"En Ingles, como se diz Padre?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633a2fd87cd8127c342829f"},"a":"Uncle","count":57,"q":"En Ingles, como se diz Tio?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633a2fd87cd8127c34282a0"},"a":"Aunt","count":66,"q":" En Ingles, como se diz Tia?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633a2fd87cd8127c34282a1"},"a":"Brother","count":65,"q":" En Ingles, como se diz Hermano?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633a2fd87cd8127c34282a2"},"a":"Sister","count":64,"q":" En Ingles, como se diz Hermana?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633a2fd87cd8127c34282a3"},"a":"Cousin","count":61,"q":" En Ingles, como se diz Primo?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633a2fd87cd8127c34282a4"},"a":"Cousin","count":63,"q":" En Ingles, como se diz Prima?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633a2fd87cd8127c34282a5"},"a":"Grandmother","count":62,"q":"Relaciones Familiar. En Ingles, como se diz Abuela?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633a2fd87cd8127c34282a6"},"a":"Grandfather","count":59,"q":"Relaciones Familiar. En Ingles, como se diz Abuelo?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633a2fd87cd8127c34282a7"},"a":"Nephew","count":60,"q":" En Ingles, como se diz Sobrino?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633a2fd87cd8127c34282a8"},"a":"Niece","count":58,"q":" En Ingles, como se diz Sobrina?","type":"Relaciones Familiar"}
+{"_id":{"$oid":"5633aec7230173ec8c6c7a6a"},"a":"Go up","count":88,"q":"Como se diz hacia encima?","type":"Direcciones."}
+{"_id":{"$oid":"5633aede230173ec8c6c7a6b"},"a":"Go Forward","count":87,"q":"Como se diz hacia delantero?","type":"Direcciones."}
+{"_id":{"$oid":"5633aee4230173ec8c6c7a6c"},"a":"Go Backward","count":86,"q":"Como se diz hacia atraz?","type":"Direcciones."}
+{"_id":{"$oid":"5633aeea230173ec8c6c7a6d"},"a":"Go Right","count":85,"q":"Como se diz hacia dareicha?","type":"Direcciones."}
+{"_id":{"$oid":"5633aef1230173ec8c6c7a6e"},"a":"Go Left","count":84,"q":"Como se diz hacia esquierda?","type":"Direcciones."}
+{"_id":{"$oid":"5633af9e230173ec8c6c7a6f"},"a":"Go Down","count":83,"q":"Como se diz hacia bajo?","type":"Direcciones."}
+{"_id":{"$oid":"5633b00d230173ec8c6c7a70"},"a":"Go North","count":82,"q":"Como se diz hacia el norte?","type":"Direcciones."}
+{"_id":{"$oid":"5633b091230173ec8c6c7a71"},"a":"Go South.","count":81,"q":"Como se diz hacia el sur?","type":"Direcciones."}
+{"_id":{"$oid":"5633b0f3230173ec8c6c7a72"},"a":"Go East.","count":80,"q":"Como se diz hacia el este?","type":"Direcciones."}
+{"_id":{"$oid":"5633b140230173ec8c6c7a73"},"a":"Go West.","count":79,"q":"Como se diz hacia el oeste?","type":"Direcciones."}
+{"_id":{"$oid":"5633bd5587cd8127c34282a9"},"a":"Cold","count":78,"q":"What is the opposite of: Hot ?","type":"Opuestos"}
+{"_id":{"$oid":"5633bd5587cd8127c34282aa"},"a":"Left","count":77,"q":"What is the opposite of: Right ?","type":"Opuestos"}
+{"_id":{"$oid":"5633bd5587cd8127c34282ab"},"a":"Clean","count":76,"q":"What is the opposite of: Dirty ?","type":"Opuestos"}
+{"_id":{"$oid":"5633bd5587cd8127c34282ac"},"a":"Sad","count":75,"q":"What is the opposite of: Happy ?","type":"Opuestos"}
+{"_id":{"$oid":"5633bd5587cd8127c34282ad"},"a":"Large","count":74,"q":"What is the opposite of: Small ?","type":"Opuestos"}
+{"_id":{"$oid":"5633bd5587cd8127c34282ae"},"a":"Awake","count":73,"q":"What is the opposite of: Asleep?","type":"Opuestos"}
+{"_id":{"$oid":"5633bd5587cd8127c34282af"},"a":"Girl","count":72,"q":"What is the opposite of: Boy ?","type":"Opuestos"}
+{"_id":{"$oid":"5633bd5587cd8127c34282b0"},"a":"Slow","count":71,"q":"What is the opposite of: Fast ?","type":"Opuestos"}
+{"_id":{"$oid":"5633bd5587cd8127c34282b1"},"a":"Far","count":70,"q":"What is the opposite of: Near ?","type":"Opuestos"}
+{"_id":{"$oid":"5633bd5587cd8127c34282b2"},"a":"There","count":69,"q":"What is the opposite of: Here ?","type":"Opuestos"}
+{"_id":{"$oid":"5633bfbf87cd8127c34282b3"},"a":"Cow","q":"Como se diz Vaca ?","type":"Animales"}
+{"_id":{"$oid":"5633bfbf87cd8127c34282b4"},"a":"Horse","q":"Como se diz Caballo ?","type":"Animales"}
+{"_id":{"$oid":"5633bfbf87cd8127c34282b5"},"a":"Goat","q":"Como se diz Cabra ?","type":"Animales"}
+{"_id":{"$oid":"5633bfbf87cd8127c34282b6"},"a":"Sheep","q":"Como se diz Oveja ?","type":"Animales"}
+{"_id":{"$oid":"5633bfbf87cd8127c34282b7"},"a":"Bull","q":"Como se diz Toro ?","type":"Animales"}
+{"_id":{"$oid":"5633bfbf87cd8127c34282b8"},"a":"Calf","q":"Como se diz Ternero ?","type":"Animales"}
+{"_id":{"$oid":"5633bfbf87cd8127c34282b9"},"a":"Pig","q":"Como se diz Chancho ?","type":"Animales"}
+{"_id":{"$oid":"5633bfbf87cd8127c34282ba"},"a":"Chicken","q":"Como se diz Pollo ?","type":"Animales"}

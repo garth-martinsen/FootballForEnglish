@@ -22,6 +22,13 @@ function EnglishQuestionsDAO(db) {
     var quests = questions.find(query).limit(2).toArray();
     callback(null, quests); 
 } //function
+    this.getNext = function(cnt, callback){
+        "use strict";
+    console.log('entered englishQuestions.getNext using: '+ cnt);
+    var query = {count: cnt};
+    var quests = questions.findOne(query);
+    callback(null, quests); 
+} //function
 console.log('Finished EnglishQuestionsDAO constructor.');
 } //constructor
 module.exports.EnglishQuestionsDAO = EnglishQuestionsDAO;

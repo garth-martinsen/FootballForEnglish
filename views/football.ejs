@@ -1,127 +1,90 @@
-<!--File: football.ejs -->
+<!--File: layout.ejs -->
 
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<!-- <script src="/images/http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
 <style>
-H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;}
-#outer {
-        position: absolute;
-        background-color: lightgreen;
-        height: 800px;
-        width: 1200px;
-        right:100px;
-        top:100px;
-        z-index: 0;
-       }
-#arrows {position: absolute; top: 130px; left: 650px;}
-#arrowLeft   { position:absolute; z-index: leftArrowIsVisible  }
-#arrowRight  { position:absolute; } 
-#field {
-         margin:100px;
-         float:left;
-         width:1000px;
-         height:600px;
-         background-color:white;
-       }
-.qf {
-    width: 250px;
-    height: 600px;
-    float: left;
-    z-index:2;
-}
-#qfa {position: absolute; left: 100px;}
-#mid {position:absolute; left:350px; width:500px; height:600px;}
-#qfd {position: absolute; left: 850px;}
+#game {position: absolute; left: 300px; top: 0px; background-color: lightgreen; width: 1200px; height: 835px;}
 
-#ball {width:30px; height:30px; position:absolute; top:390px; left: <%=pxpos%>; z-index:5; }
+#field {position:absolute; left: 350px; top: 83px; background-color:green }
+.qf { width: 250px; height: 600px; float: left; z-index:2; }
+#qfa {position: absolute; left: -320px;}
+#mid {position:absolute; left:-70px; width:500px; height:600px;}
+#qfd {position: absolute; left: 427px;}
 .goal {width:30px; height:50px}
-#g1{ position:absolute; top: 360px; left: 69px;width:30px; height:90px }
-#g2{ position:absolute; top: 360px; left: 1098px; ;width:30px; height:90px}
-#buttons {position: absolute; float: left; left: 900px; top: 140px;}
-.button {margin:2px;}
-#timer {position: absolute; top: 140px; left: 340px; width: 150px; height: 40px; font-size: xx-large; }
-#falta {position: absolute; font-size: x-large; width: 50px;    text-align: center;
-} #scores{ font-size: x-large; }
-#scoreA {position: absolute; top: 0em; left: 0em; background-color: aqua; font-size: 2em; width: 6em;}
-#scoreB {position: absolute; top: 1.3em; left: 0em; background-color: #FF1800; font-size: 2em; width: 6em; }
-.scoreInput { position: absolute; left: 4em; width: 1em; font-size: 1.1em; }
-#quest { }
-#contestants {margin: 5px; position: absolute; left: 50px; top: 700px; width: 1090px;}
-.team {margin-top:10px; margin-bottom:10px;}
-.wideInput {width: 65%;}
-.AnsLabel {margin-left: 25%;}
+#g1{position: absolute; left: -350px; top: 259px; width:30px; height:90px }
+#g2{position: relative; left: 678px; z-index: 1; top: 260px; ;width:30px; height:90px; }
+#ball { position: absolute;  top: 282px; left:<%=pxpos%>;  width:30px; height:30px; z-index: 3; } 
+#buttons {position: absolute; top: -126px; font-size: 14em; left: 379px; }
+.button {margin:2px;background-color:lightgrey}
+#questions {position: absolute; left: 0em; top: 0px; background-color: lightblue; width: 300px;     height: 835px; }
+#timer {position: absolute;top: 0em; left: .5em;  font-size: xx-large; }
+#falta {position: absolute; font-size: x-large; width: 50px;    text-align: center; } 
+#scores{ font-size: x-large;position: relative; top: 2em;} 
+#scoreA {position: relative; left: .3em; background-color: aqua; font-size: .9em; width: 95%;}
+#scoreB {position: relative; top: 0.3em; left: .3em; background-color: #FF1800; font-size: .9em; width: 95%}
+.scoreInput { position: absolute; left: 4.1em; width: 1em; font-size: 1.1em;text-align:center; }
+#QA {position: relative; top: 4em; left:.75em; width:300px; height:80%; font-size: 1.2em; }
+.q_A {position:relative; top: 1em; width:90%;font-size:1em;}
+#betweenQA {height: 2em; }
+.team {font-size:1.2em; vertical-align:top; }
+.AnswerLabel {position:relative; top: 1em;}
+#showAnswer {position: relative;top: 1.5em; left: 4em; };
+H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;}
+#title {text-align:center; width:1000px; font-size:2em;}
 </style>
 </head>
 
 <body class="container">
-<form id='game'>
-              <input type="hidden" id="answerA" name="answerA" value=<%=answerA%>/> 
-              <input type="hidden" name="answerB" id="answerB"  value=<%=answerB%>/> 
-              <input type="hidden" id="leftArrowIsVisible" name="leftArrowIsVisible" value=<%=leftArrowIsVisible%>/> 
-              <input type="hidden" id="ballLocation" name="ballLocation" value=<%=ballLocation%>/> 
-              <input type="hidden" id="ballpxLocation" name="ballpxLocation" value=<%=pxpos%>/> 
-              <input type="hidden" id="ballDirection" name="ballDirection" value=<%=ballDirection%>/> 
-              <input type="hidden" id="remaining" name="remaining" value=<%=remaining%>/> 
- <H1><%= name %></H1>
-    <div id="outer" >
-      <div id="field">
+<form id="wholeForm">
+<div id="game">
+<input type="hidden" name="ballLocation" value='<%=ballLocation%>'/>
+<input type="hidden" name="ballDirection" value='<%=ballDirection%>'/>
+<input type="hidden" name="leftArrowIsVisible" value='<%=leftArrowIsVisible%>'/>
+<input type="hidden" name="remaining" value='<%=remaining%>'/>
+<input type="hidden" name="pxpos" value='<%=pxpos%>'/>
+ <H1 id='title'><%= name %></H1>
+<div id="field" >
          <img id="qfa" class="qf" src="/images/quarterFieldA.png">
-         <img id="mid" class="mf" src="/images/midfield.png">
+         <img id="mid" src="/images/midfield.png">
          <img id="qfd" class="qf" src="/images/quarterFieldD.png">
-         <img id="ball" src="/images/ball.png" >
          <img id="g1" class:"goal" src="/images/soccerGoal.png">
          <img id="g2" class:"goal" src="/images/soccerGoal.png">
-         </div>
-         <div id="contestants" class="contest" >
-          <div class="team">
-           <label> TeamA_Player:</label>
-               <input type="text" value= <%=playerA%> id="teamA" >
-           <label>Question: </label> 
-               <input type="text" id="quesA" class = 'wideInput' value=<%=questionA%>/> 
-               <select id= "judgeA" name="A_isCorrect:">
-                 <option value=-1>Ans</option>
-                 <option value=1 >Right</option>
-                 <option value=0 >Wrong</option>
-              </select>
-           
-           </div>
-          <div class="team">
-           <label> TeamB_Player:</label>
-              <input type="text" id="playerB" value =<%=playerB%>  >
-           <label>Question: </label> 
-              <input type="text" id="quesB" class = 'wideInput'  value=<%=questionB%>> 
-               <select id= "judgeB" name="B_isCorrect:">
-                 <option value=-1>Ans</option>
-                 <option value=1 >Right</option>
-                 <option value=0 >Wrong</option>
-              </select>
-         </div>
-        </div>
+         <img id="ball" src="/images/ball.png" left=pxpos>
+</div>
+      <div id='buttons'>
+        <input type="submit" class = "button" id="dir" value="Change Possession" formaction='/possession' formmethod="post" formenctype="application/x-www-form-urlencoded" />
+        <input type="submit" class = "button" id="adv" value="Advance Ball" formaction='/advance' formmethod="post" formenctype="application/x-www-form-urlencoded" />
       </div>
-      <div id="arrows"> 
-        <img id="arrowLeft" src="/images/arrowLeft.png" z-index=' <%=leftArrowIsVisible%>' >
-        <img id="arrowRight" src="/images/arrowRight.png" >
-      </div>
-      <div id="timer" name="remaining" >Falta:<input type="text" id="falta" value = <%=remaining%> width= 50px readonly ></div>
+</div>
+<div id="questions">
+      <div id="timer" name="remaining" >Clock:<input type="text" id="falta" value =<%=remaining%> width= 50px readonly ></div>
       <div id="scores" >
        <div id="scoreA">
-          Argentina <input type="text" name="scoreA"  readonly class="scoreInput" value=<%=scoreA%>>
+          Argentina <input type="text" name="scoreA"  readonly class="scoreInput" value='<%=scoreA%>'>
       </div>
       <div id="scoreB">
-          Chile <input type="text" name="scoreB"  readonly class="scoreInput" value=<%=scoreB%>>
+          Chile <input type="text" name="scoreB"  readonly class="scoreInput" value='<%=scoreB%>'>
       </div>
      </div>
-      <div id='buttons'>
-        <input type="submit" class = "button" id="dir" value="Change Possession" formaction='/possession' formmethod="post" formenctype="application/x-www-form-urlencoded" >
-        <input type="submit" class = "button" id="adv" value="Advance" formaction='/advance' formmethod="post" formenctype="application/x-www-form-urlencoded" >
-        <input type="submit" class = "button" id="quest" value="Questions" formaction='/questions' formmethod="post" formenctype="application/x-www-form-urlencoded" >
-      </div>
-   </div>
-</form>
-<script>
-   var ballPositions =['68px','340px','580px','850px','1100px'] 
-</script>
+         <div id="QA" class="contest" >
+           <label><%=team%></label>
+           <label>__Question:__ </label> 
+           <input  type='submit' class = "button" id="quest" value="Question" formaction='/question' formmethod="post" formenctype="application/x-www-form-urlencoded" /> 
+               <textArea id="question_A" class= "q_A" font-size="1.2em" rows="15" cols="10" ><%=questionA%> </textArea>
+               <div id="betweenQA">
+                <label class="AnswerLabel" >__Answer:__ </label>
+	        <input type='submit' id="showAnswer" class="button"  value="Answer" formaction='/answer' formmethod="post" formenctype="application/x-www-form-urlencoded" /> 
+               </div>
+               <textArea id="answer_A" class= "q_A" rows="5" cols="10"><%=answerA%> </textArea>
+        </div>
+</div>
+</div>
+  <script>
+    var ballPositions[]= {"-349px","-116px","163px","454px","676px" }
+  </script>
+  </form> <!--wholeForm -->
 </body>
 </html>
