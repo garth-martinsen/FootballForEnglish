@@ -26,9 +26,21 @@ function EnglishQuestionsDAO(db) {
         "use strict";
     console.log('entered englishQuestions.getNext using: '+ cnt);
     var query = {count: cnt};
-    var quests = questions.findOne(query);
-    callback(null, quests); 
+    questions.findOne(query,function(err, doc){
+    callback(err, doc); 
+    });
 } //function
+    this.getAll = function( callback){
+        "use strict";
+    console.log('entered englishQuestions.getAll');
+    questions.find({}).toArray(function(err, quests){
+    if(err) throw err;
+//    console.log('Array: ' + JSON.stringify(quests));
+    console.log('In QuestionsDAO, size of question array: ' + quests.length);
+    callback(err, quests); 
+});
+} //function
+
 console.log('Finished EnglishQuestionsDAO constructor.');
 } //constructor
 module.exports.EnglishQuestionsDAO = EnglishQuestionsDAO;

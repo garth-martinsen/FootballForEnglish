@@ -8,6 +8,7 @@
 
 /* ---------------The ContentHandler must be constructed with a connected db -------- */
 
+      var byCount= new Map;
 function ContentHandler (db, url, ballPositions) {
     "use strict";
      console.log('Entered contentHandler with db, url, ballPositions'); 
@@ -18,17 +19,22 @@ function ContentHandler (db, url, ballPositions) {
 
       var questionsDao = new EnglishQuestionsDAO(db);
       var playersDao = new PlayersDAO(db);
-//      questionsDao.getAll(function(err, questions){ allQuestions = questions });
+      questionsDao.getAll(function(err, questions){ allQuestions = questions ; storeByCount(questions)});
 //      playersDao.getAll(function(err, players){ allPlayers = players} );
 
 //functions
-/* -----------------
-app.post('/possession', contentHandler.changePossession);
-   app.post('/advance', contentHandler.advanceBall);
-   app.post('/question', contentHandler.displayQuestion);
-   app.post('/answer', contentHandler.displayAnswer);
-
----------------------*/
+var storeByCount = function(questions){
+ questions.forEach(function( item){
+byCount.set(item.count, item);
+});
+console.log('byCount map size: ' + byCount.size)
+} //function
+var getByCount=function(cnt){
+console.log("Getting the item at count: " + cnt);
+var item = byCount.get(cnt);
+console.log("Item is: " + JSON.stringify(item));
+return item;
+} //function
 var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
  this.displayMainPage = function(req, res, next) {
         "use strict";
@@ -69,7 +75,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
 //           console.log('Entered content.displayChangePossession poss: ' + poss + ', direction: ' + ballDirection + ' with location: ' + ballLocation );
            var leftArrowIsVisible = (poss ^ 1); 
            ballDirection = - ballDirection;
-//           count -=2;
+           count-- ;
+           var item = byCount.get(count);
            console.log('...Changed possession to: ' +  leftArrowIsVisible  + ', ballDirection to: ' + ballDirection + ' with ballLocation: ' + ballLocation );
            return res.render('football', 
                {  
@@ -78,8 +85,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                 , scoreA : scoreA
                 , scoreB : scoreB
                 , team : 'team'
-                ,'questionA': "What_is_the_opposite_of_Tall?"
-                , answerA: 'The_opposite_of_Tall_is_Short.'
+                ,'questionA': item.q 
+                , answerA: 'Do not show until answered.'
                 , ballLocation: ballLocation
                 , pxpos: ballPositions[ballLocation]
                 , ballDirection : ballDirection
@@ -114,94 +121,83 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
            else{
              console.log('Error. BallDirection is: ' + ballDirection);}
            //After moving check if ball is in Goal. If so, change direction and increment score.
-           if((ballLocation === 0 && ballDirection===-1) || (ballLocation === 4)&&(ballDirection===1)) {
-             if(ballDirection === -1) { 
-               scoreA += 1;}
-             else if(ballDirection ===1) {
-               scoreB += 1;}
-             ballDirection = -ballDirection;
-             poss = poss^1;
-            }else {
-            count -=2;
+           if(ballLocation === 0 && ballDirection===-1){
+               scoreA++;
+               ballDirection = -ballDirection;
+               poss = poss^1;
+           } 
+           else if(ballLocation === 4 && ballDirection===1) {
+               scoreB++;
+               ballDirection = -ballDirection;
+               poss = poss^1;
            }
- 
+          count--; 
+         var item = byCount.get(count); 
          var  params = {name : 'Americas Cup of English', 
            remaining : count, 
            scoreA : scoreA, 
            scoreB :  scoreB,
            team :  'team',
-           questionA :  'Next Question from DB',
+           questionA : item.q, 
            answerA :  'Do not show until answered',
            ballLocation : ballLocation, 
            pxpos : ballPositions[ballLocation], 
            ballDirection : ballDirection, 
            leftArrowIsVisible : 0
           }; 
-//          questions.getNext(count, function(err, question){
-//               if(err) throw err;
-//               params.questionA = question.q;
-          console.log('...Advanced to position: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count + ' poss: ' + poss);
-            return res.render('football',params );
-//         });
+
+    return res.render('football',params );
  }//function
- this.displayQuestion = function(req, res, next) {
-        "use strict";
-           console.log('Entered displayQuestion  with params: ' + JSON.stringify(params));
-           var scoreA =asNumber(req.body.scoreA);
-           var scoreB =asNumber(req.body.scoreB);  
-           var count = asNumber(req.body.remaining);
-           var ballDirection = asNumber(req.body.ballDirection);
-           var ballLocation = asNumber(req.body.ballLocation);
-
-           console.log('Entered displayQuestion with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count + ' poss: ' + poss);
-           questions.getNext(count, function(err, question){
-              if(err) throw err;
-
-               return res.render('football', {
-                 name : 'Americas Cup of English'
-                ,remaining:count
-                , scoreA : scoreA
-                , scoreB : scoreB
-                , team: 'team'   //Future TODO: use the ballDirection to determine which Team to display.
-                ,questionA:question.q 
-                ,answerA: ''
-                ,ballLocation: ballLocation
-                ,pxpos: ballPositions[ballLocation] 
-                ,ballDirection: ballDirection
-                ,leftArrowIsVisible: poss
-           }
-           ); //render
-        }); //questions
-}//function
+  this.displayQuestion = function(req, res, next) {
+         "use strict";
+             var scoreA =asNumber(req.body.scoreA);
+             var scoreB =asNumber(req.body.scoreB);
+             var count = asNumber(req.body.remaining);
+             var ballDirection = asNumber(req.body.ballDirection);
+             var ballLocation = asNumber(req.body.ballLocation);
+ 
+               count--; //next question.
+               console.log('Entered displayQuestion with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count );
+            var item = byCount.get(count);
+            return res.render('football', {
+                   name : 'Americas Cup of English'
+                 , remaining:count
+                 , scoreA : scoreA
+                 , scoreB : scoreB
+                 , team: 'team'   //Future TODO: use the ballDirection to determine which Team to display.
+                 , questionA:item.q
+                 , answerA:' Do not show until answered'
+                 , ballLocation: ballLocation
+                 , pxpos: ballPositions[ballLocation]
+                 , ballDirection: ballDirection
+                 , leftArrowIsVisible: ballDirection
+            }
+            ); //render
+ }//function
  this.displayAnswer = function(req, res, next) {
         "use strict";
-           var sA =req.body.scoreA.match(/[-0-9]+/g);  
-           var sB =req.body.scoreB.match(/[-0-9]+/g);  
-           var bl = req.body.ballLocation.match(/[-0-9]+/g);
-           var cnt = req.body.remaining.match(/[-0-9]+/g);
-           console.log('Entered displayQuestions from: ' + ballLocation + ' with count: ' + count );
-           var count = Number(cnt[0]);
-           var scoreA = Number(sA[0]);
-           var scoreB = Number(sB[0]);
-           var ballLocation = Number(bl[0]);
-           questions.getNext(count, function(err, question){
-              if(err) throw err;
+            var scoreA =asNumber(req.body.scoreA);
+            var scoreB =asNumber(req.body.scoreB);
+            var count = asNumber(req.body.remaining);
+            var ballDirection = asNumber(req.body.ballDirection);
+            var ballLocation = asNumber(req.body.ballLocation);
 
-               return res.render('football', {
-                 name : 'Americas Cup of English'
-                ,remaining:count
+           console.log('Entered displayAnswer with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count );
+           var item = byCount.get(count);
+           return res.render('football', {
+                  name : 'Americas Cup of English'
+                , remaining:count
                 , scoreA : scoreA
                 , scoreB : scoreB
                 , team: 'team'   //Future TODO: use the ballDirection to determine which Team to display.
-                ,questionA:question.q 
-                ,answerA:question.a 
-                ,ballLocation: ballLocation
-                ,pxpos: ballPositions[ballLocation] 
-                ,ballDirection: ballDirection
-                ,leftArrowIsVisible: poss
+                , questionA:item.q 
+                , answerA:item.a 
+                , ballLocation: ballLocation
+                , pxpos: ballPositions[ballLocation] 
+                , ballDirection: ballDirection
+                , leftArrowIsVisible: ballDirection
            }
            ); //render
-        });//questions
 }//function
 
 /* ------------------
