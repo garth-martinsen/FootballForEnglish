@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#timer {width:5em; height:3em;}
+#txt {width:4em; height:1em}
+</style>
+</head>
+<body>
+<div id='timer'>
+  <button id= "start" onclick="init()">Start</button>
+  <div id="txt"></div>
+</div>
+<script>
+var limit = 30; //30 seconds
+var start, endMs, enabled, display = document.getElementById("txt");
+
+var init=function(){
+enabled=true;
+start= new Date();
+endMs = start.getTime() + 30000;
+display.innerHTML = 30;
+oneTick();
+}
+var oneTick=function () {
+    s= Math.floor((endMs - new Date().getTime())/1000);
+    s = checkTime(s);
+    document.getElementById("txt").innerHTML = s;
+    var t = setTimeout(function(){ if(s> 0 && enabled){oneTick()} else{s='Expired!'; display.innerHTML =s; } }, 1000);
+}
+
+// add a zero in front of numbers<10
+function checkTime(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
+</script>
+
+</body>
+</html>
+

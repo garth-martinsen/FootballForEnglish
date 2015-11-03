@@ -15,17 +15,15 @@ function ContentHandler (db, url, ballPositions) {
      console.log('In ContentHandler, BallPositions are: ' + ballPositions); 
      console.log('In ContentHandler, url is: ' + url); 
 
-     
-
       var questionsDao = new EnglishQuestionsDAO(db);
       var playersDao = new PlayersDAO(db);
       questionsDao.getAll(function(err, questions){ allQuestions = questions ; storeByCount(questions)});
-//      playersDao.getAll(function(err, players){ allPlayers = players} );
 
-//functions
+//functions ...
 var storeByCount = function(questions){
  questions.forEach(function( item){
-byCount.set(item.count, item);
+ byCount.set(item.count, item);
+// console.log(JSON.stringify(item))
 });
 console.log('byCount map size: ' + byCount.size)
 } //function
@@ -41,17 +39,18 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
            console.log('Entered displayMainPage with req: '+ JSON.stringify(req) + ' and res: ' + JSON.stringify(res));
             return res.render('football', 
               {
-                'name' : 'Americas Cup of English'
-                , remaining:33
+                 'name' : 'Americas Cup of English'
+                , remaining:100
                 , scoreA : scoreA
                 , scoreB : scoreB
                 , team: 'team'
-                ,'questionA': "What_is_the_opposite_of_Tall?"
-                , answerA: 'The_opposite_of_Tall_is_Short.'
+                ,'questionA': "What is the opposite of Tall?"
+                , answerA: 'The opposite of Tall is Short.'
                 , ballLocation: ballLocation
                 , pxpos: ballPositions[ballLocation]
                 , ballDirection : 0
-                , leftArrowIsVisible: 0
+                , leftArrowIsVisible:(ballDirection>0)? 0 : 1 
+                , rightArrowIsVisible : (ballDirection>0)? 1 : 0
               }
             );
  }//function
@@ -77,6 +76,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
            ballDirection = - ballDirection;
            count-- ;
            var item = byCount.get(count);
+         if(item === null) throw({error: 'item is not found at count: ' + count})
+           if(item === null) throw({error: 'item is not found at count: ' + count})
            console.log('...Changed possession to: ' +  leftArrowIsVisible  + ', ballDirection to: ' + ballDirection + ' with ballLocation: ' + ballLocation );
            return res.render('football', 
                {  
@@ -90,12 +91,12 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                 , ballLocation: ballLocation
                 , pxpos: ballPositions[ballLocation]
                 , ballDirection : ballDirection
-                , leftArrowIsVisible: leftArrowIsVisible
+                , leftArrowIsVisible:(ballDirection>0)? 0 : 1 
+                , rightArrowIsVisible : (ballDirection>0)? 1 : 0
                }
            );
  }//function
-//This function will move the ball to the next location and decrements remaining question count by 2. 
-// Future: it will populate the next question.
+//This function will move the ball to the next location and decrements remaining question count by 1. 
  this.advanceBall = function(req, res, next) {
         "use strict";
 
@@ -133,17 +134,21 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
            }
           count--; 
          var item = byCount.get(count); 
-         var  params = {name : 'Americas Cup of English', 
-           remaining : count, 
-           scoreA : scoreA, 
-           scoreB :  scoreB,
-           team :  'team',
-           questionA : item.q, 
-           answerA :  'Do not show until answered',
-           ballLocation : ballLocation, 
-           pxpos : ballPositions[ballLocation], 
-           ballDirection : ballDirection, 
-           leftArrowIsVisible : 0
+         if(item === null) throw({error: 'item is not found at count: ' + count})
+
+         var  params = {
+           name : 'Americas Cup of English' 
+         , remaining : count 
+         , scoreA : scoreA 
+         , scoreB :  scoreB
+         , team :  'team'
+         , questionA : item.q 
+         , answerA :  'Do not show until answered'
+         , ballLocation : ballLocation 
+         , pxpos : ballPositions[ballLocation] 
+         , ballDirection : ballDirection 
+         , leftArrowIsVisible:(ballDirection>0)? 0 : 1 
+         , rightArrowIsVisible : (ballDirection>0)? 1 : 0
           }; 
 
     return res.render('football',params );
@@ -159,6 +164,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                count--; //next question.
                console.log('Entered displayQuestion with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count );
             var item = byCount.get(count);
+            if(item === null) throw({error: 'item is not found at count: ' + count})
             return res.render('football', {
                    name : 'Americas Cup of English'
                  , remaining:count
@@ -170,7 +176,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                  , ballLocation: ballLocation
                  , pxpos: ballPositions[ballLocation]
                  , ballDirection: ballDirection
-                 , leftArrowIsVisible: ballDirection
+                 , leftArrowIsVisible: (ballDirection>0)? 0 : 1
+                 , rightArrowIsVisible : (ballDirection>0)? 1 : 0
             }
             ); //render
  }//function
@@ -184,9 +191,10 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
 
            console.log('Entered displayAnswer with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count );
            var item = byCount.get(count);
+           if(item === null) throw({error: 'item is not found at count: ' + count})
            return res.render('football', {
                   name : 'Americas Cup of English'
-                , remaining:count
+                , remaining: count
                 , scoreA : scoreA
                 , scoreB : scoreB
                 , team: 'team'   //Future TODO: use the ballDirection to determine which Team to display.
@@ -195,7 +203,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                 , ballLocation: ballLocation
                 , pxpos: ballPositions[ballLocation] 
                 , ballDirection: ballDirection
-                , leftArrowIsVisible: ballDirection
+                , leftArrowIsVisible: (ballDirection>0)? 0 : 1
+                , rightArrowIsVisible : (ballDirection>0)? 1 : 0
            }
            ); //render
 }//function
@@ -211,7 +220,8 @@ answer: '<%=answerA%>'
 ballLocation: <%=ballLocation%>
 ballpx:  '<%=pxpos%>'                                                                 
 ballDir: '<%=ballDirection%>'
-leftArrow: '>%=leftArrowIsVisible%>'
+leftArrow: '<%=leftArrowIsVisible%>'
+rightArrow: <%=rightArrowIsVisible%>
  ---------------------*/
 console.log('Finished contentHandler.')
 }   //ContentHandler.

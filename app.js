@@ -21,6 +21,7 @@ var express = require('express')
    , pxpos: app.ballPositions[0]		//'<%=pxpos%>'
    , ballDirection : 1				//<%=ballDirection%>
    , leftArrowIsVisible : 0			//<%=leftArrowIsVisible%>'
+   , rightArrowIsVisible : 1			//<%=rightArrowIsVisible%>'
  };
   console.log()
   console.log('*************************************************')
