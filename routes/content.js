@@ -5,10 +5,14 @@
  ,   PlayersDAO =   require('./players').PlayersDAO
  var   sanitize = require('validator').sanitize // Helper to sanitize form input;
  ,   allQuestions, allPlayers, questionA, answerA ;
+var $ = require('jquery');
 
 /* ---------------The ContentHandler must be constructed with a connected db -------- */
 
       var byCount= new Map;
+      var teams=new Map;
+      teams.set(1, 'Chile');
+      teams.set(-1, 'Argentina');
 function ContentHandler (db, url, ballPositions) {
     "use strict";
      console.log('Entered contentHandler with db, url, ballPositions'); 
@@ -43,7 +47,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                 , remaining:100
                 , scoreA : scoreA
                 , scoreB : scoreB
-                , team: 'team'
+                , team:teams.get(ballDirection) 
                 ,'questionA': "What is the opposite of Tall?"
                 , answerA: 'The opposite of Tall is Short.'
                 , ballLocation: ballLocation
@@ -85,7 +89,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                 , remaining:count
                 , scoreA : scoreA
                 , scoreB : scoreB
-                , team : 'team'
+                , team:teams.get(ballDirection) 
                 ,'questionA': item.q 
                 , answerA: 'Do not show until answered.'
                 , ballLocation: ballLocation
@@ -141,7 +145,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
          , remaining : count 
          , scoreA : scoreA 
          , scoreB :  scoreB
-         , team :  'team'
+         , team:teams.get(ballDirection) 
          , questionA : item.q 
          , answerA :  'Do not show until answered'
          , ballLocation : ballLocation 
@@ -170,7 +174,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                  , remaining:count
                  , scoreA : scoreA
                  , scoreB : scoreB
-                 , team: 'team'   //Future TODO: use the ballDirection to determine which Team to display.
+                 , team:teams.get(-ballDirection) 
                  , questionA:item.q
                  , answerA:' Do not show until answered'
                  , ballLocation: ballLocation
@@ -197,7 +201,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                 , remaining: count
                 , scoreA : scoreA
                 , scoreB : scoreB
-                , team: 'team'   //Future TODO: use the ballDirection to determine which Team to display.
+                , team:teams.get(ballDirection) 
                 , questionA:item.q 
                 , answerA:item.a 
                 , ballLocation: ballLocation

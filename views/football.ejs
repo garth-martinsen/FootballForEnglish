@@ -4,7 +4,7 @@
 
 <html lang="en">
 <head>
-<!-- <script src="/images/http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
 <style>
 #game {position: absolute; left: 300px; top: 0px; background-color: lightgreen; width: 1200px; height: 835px;}
 
@@ -23,6 +23,8 @@
 .button {margin:2px;background-color:lightgrey}
 #questions {position: absolute; left: 0em; top: 0px; background-color: lightblue; width: 300px;     height: 835px; }
 #timer {position: absolute;top: 0em; left: .5em;  font-size: xx-large; }
+#timer30 {position:absolute; top: 527px; left: 11em;}
+#txt {position: relative; left: 4em; top: -1.5em;}
 #falta {position: absolute; font-size: x-large; width: 50px;    text-align: center; } 
 #scores{ font-size: x-large;position: relative; top: 2em;} 
 #scoreA {position: relative; left: .3em; background-color: aqua; font-size: .9em; width: 95%;}
@@ -33,7 +35,7 @@
 #betweenQA {height: 2em; }
 .team {font-size:1.2em; vertical-align:top; }
 .AnswerLabel {position:relative; top: 1em;}
-#showAnswer {position: relative;top: 1.5em; left: 4em; };
+#showAnswer {position: relative;top: 1.5em; left: 1em; };
 H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;}
 #title {text-align:center; width:1000px; font-size:2em;}
 </style>
@@ -76,20 +78,69 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
      </div>
          <div id="QA" class="contest" >
            <label><%=team%></label>
-           <label>__Question:__ </label> 
+           <label>_Question:_ </label> 
            <input  type='submit' class = "button" id="quest" value="Question" formaction='/question' formmethod="post" formenctype="application/x-www-form-urlencoded" /> 
                <textArea id="question_A" class= "q_A" font-size="1.2em" rows="15" cols="10" ><%=questionA%> </textArea>
                <div id="betweenQA">
-                <label class="AnswerLabel" >__Answer:__ </label>
+                <label class="AnswerLabel" >Answer: </label>
 	        <input type='submit' id="showAnswer" class="button"  value="Answer" formaction='/answer' formmethod="post" formenctype="application/x-www-form-urlencoded" /> 
                </div>
                <textArea id="answer_A" class= "q_A" rows="5" cols="10"><%=answerA%> </textArea>
         </div>
 </div>
 </div>
-  <script>
-    var ballPositions[]= {"-349px","-116px","163px","454px","676px" }
+</form> <!--wholeForm -->
+<div id='timer30'>
+  <button id= "start" class="button" >Timer</button>
+  <div id="txt"></div>
+</div>
+<audio id= "beep" >
+  <source src="sounds/beep-07.wav" type="audio/wav">
+</audio>
+<audio id= "homer" >
+  <source id="homer" src="sounds/homer.wav" type="audio/wav">
+</audio>
+<script>
+//var ballPositions= {"-349px","-116px","163px","454px","676px" };
+var aud = document.getElementById("beep"); 
+var homer = document.getElementById("homer"); 
+var limit = 30; //30 seconds
+var start, endMs, enabled, display = document.getElementById("txt");
+$(document).ready( function(){
+$('#start').on( "click", function() {
+  console.log( 'Clicked start timer.');
+ init();
+});
+var init=function(){
+enabled=true;
+start= new Date();
+endMs = start.getTime() + 30000;
+display.innerHTML = 30;
+oneTick();
+}
+var oneTick=function () {
+    s= Math.floor((endMs - new Date().getTime())/1000);
+    s = checkTime(s);
+    display.innerHTML = s;
+    var t = setTimeout(function(){ 
+       if(s> 0 && enabled){
+         oneTick();} 
+       else{
+       aud.play();
+       s='Expired!';
+       setTimeout(function(){
+          homer.play();}, 2000);
+       display.innerHTML =s; } }, 1000);
+}
+
+// add a zero in front of numbers<10
+function checkTime(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
+});
   </script>
-  </form> <!--wholeForm -->
 </body>
 </html>
