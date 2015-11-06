@@ -13,6 +13,7 @@ var $ = require('jquery');
       var teams=new Map;
       teams.set(1, 'Chile');
       teams.set(-1, 'Argentina');
+      teams.set(0, 'Tie');
 function ContentHandler (db, url, ballPositions) {
     "use strict";
      console.log('Entered contentHandler with db, url, ballPositions'); 
@@ -75,23 +76,35 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
            var poss = Number(pss[0]);
            var scoreA = Number(sA[0]);
            var scoreB = Number(sB[0]);
+           var title, question, answer;
 //           console.log('Entered content.displayChangePossession poss: ' + poss + ', direction: ' + ballDirection + ' with location: ' + ballLocation );
            var leftArrowIsVisible = (poss ^ 1); 
            ballDirection = - ballDirection;
            count-- ;
-           var item = byCount.get(count);
-         if(item === null) throw({error: 'item is not found at count: ' + count})
-           if(item === null) throw({error: 'item is not found at count: ' + count})
+       // See if the game is over. It stops when count <1.
+           if(count<1){
+              title= 'Americas Cup of English Is Over!!!';
+              question = 'Great game!!!';
+              answer = 'You are all winners!!!';
+              ballLocation=2;
+              ballDirection = scoreB-scoreA;
+           }else{
+             title = 'Americas Cup of English';
+             var item = byCount.get(count); 
+             if(item === null) throw({error: 'item is not found at count: ' + count})
+             question = item.q;
+             answer = 'Do not display until answered';
+          }
            console.log('...Changed possession to: ' +  leftArrowIsVisible  + ', ballDirection to: ' + ballDirection + ' with ballLocation: ' + ballLocation );
            return res.render('football', 
                {  
-                 name : 'Americas Cup of English'
+                 name : title
                 , remaining:count
                 , scoreA : scoreA
                 , scoreB : scoreB
                 , team:teams.get(ballDirection) 
-                ,'questionA': item.q 
-                , answerA: 'Do not show until answered.'
+                ,'questionA': question 
+                , answerA: answer 
                 , ballLocation: ballLocation
                 , pxpos: ballPositions[ballLocation]
                 , ballDirection : ballDirection
@@ -117,12 +130,13 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
            var poss = Number(pss[0]);
            var scoreA = Number(sA[0]);
            var scoreB = Number(sB[0]);
+           var question, answer, title;
 
  //          console.log('Entered displayAdvance from: ' + ballLocation + ' in direction: ' + ballDirection + ' questionsRemaining: ' + count );
            if( ballDirection === 1){
-             ballLocation +=1; }
-           else if(ballDirection === -1){
-            ballLocation += -1; }
+             ballLocation++; 
+           } else if(ballDirection === -1){
+            ballLocation--; }
            else{
              console.log('Error. BallDirection is: ' + ballDirection);}
            //After moving check if ball is in Goal. If so, change direction and increment score.
@@ -136,18 +150,29 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                ballDirection = -ballDirection;
                poss = poss^1;
            }
-          count--; 
+          count--;
+          // See if the game is over. It stops when count <1. 
+          if(count<1){
+              title= 'Americas Cup of English Is Over!!!';
+              question = 'Great game!!!';
+              answer = 'You are all winners!!!';
+              ballLocation=2;
+              ballDirection = scoreB-scoreA;
+          }else{
+         title = 'Americas Cup of English';
          var item = byCount.get(count); 
          if(item === null) throw({error: 'item is not found at count: ' + count})
-
+         question = item.q;
+         answer = item.a;
+         }
          var  params = {
-           name : 'Americas Cup of English' 
+           name :title 
          , remaining : count 
          , scoreA : scoreA 
          , scoreB :  scoreB
          , team:teams.get(ballDirection) 
-         , questionA : item.q 
-         , answerA :  'Do not show until answered'
+         , questionA : question 
+         , answerA :  answer
          , ballLocation : ballLocation 
          , pxpos : ballPositions[ballLocation] 
          , ballDirection : ballDirection 
@@ -164,19 +189,30 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
              var count = asNumber(req.body.remaining);
              var ballDirection = asNumber(req.body.ballDirection);
              var ballLocation = asNumber(req.body.ballLocation);
+             var title, question, answer;
  
-               count--; //next question.
+               count--; //for index of next question.
+               if(count<1){
+                 title= 'Americas Cup of English Is Over!!!';
+                 question = 'Great game!!!';
+                 answer = 'You are all winners!!!';
+                 ballDirection = scoreB-scoreA;
+               }else{
+                 var item = byCount.get(count);
+                 if(item === null) throw({error: 'item is not found at count: ' + count})
+                 title= 'Americas Cup of English';
+                 question = item.q;
+                 answer = 'Do not show until answered.';
                console.log('Entered displayQuestion with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count );
-            var item = byCount.get(count);
-            if(item === null) throw({error: 'item is not found at count: ' + count})
+             }
             return res.render('football', {
-                   name : 'Americas Cup of English'
+                   name : title
                  , remaining:count
                  , scoreA : scoreA
                  , scoreB : scoreB
                  , team:teams.get(-ballDirection) 
-                 , questionA:item.q
-                 , answerA:' Do not show until answered'
+                 , questionA:question
+                 , answerA:answer
                  , ballLocation: ballLocation
                  , pxpos: ballPositions[ballLocation]
                  , ballDirection: ballDirection
