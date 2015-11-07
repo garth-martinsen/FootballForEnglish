@@ -22,6 +22,7 @@ var express = require('express')
    , ballDirection : 1				//<%=ballDirection%>
    , leftArrowIsVisible : 0			//<%=leftArrowIsVisible%>'
    , rightArrowIsVisible : 1			//<%=rightArrowIsVisible%>'
+   , timing : false				//<%=timing%>'
  };
   console.log()
   console.log('*************************************************')

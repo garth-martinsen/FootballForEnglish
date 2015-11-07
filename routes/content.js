@@ -22,23 +22,36 @@ function ContentHandler (db, url, ballPositions) {
 
       var questionsDao = new EnglishQuestionsDAO(db);
       var playersDao = new PlayersDAO(db);
-      questionsDao.getAll(function(err, questions){ allQuestions = questions ; storeByCount(questions)});
+      questionsDao.getAll(function(err, questions){ allQuestions = questions ; randomize();});
 
 //functions ...
-var storeByCount = function(questions){
- questions.forEach(function( item){
- byCount.set(item.count, item);
-// console.log(JSON.stringify(item))
-});
-console.log('byCount map size: ' + byCount.size)
-} //function
+var nextRandomIndex= function(diminishingArray){
+return Math.floor((Math.random() * diminishingArray.length) );
+}//function
+// when randomize is complete, each item in allQuestions will have a randomly assigned index  value between 1 and allQuestions.length. 
+//The game will be played with the first 100 items, and will count down from 100 to 0.
+var randomize = function() {
+       "use strict";
+// start with allQuestions from db, and counter set to zero.
+  var counter = 0;
+// copy allQuestions into a diminishingArray, da. While da is not empty, randomly remove an item from da and insert it into byCount map.
+  var da = allQuestions.slice(0,allQuestions.length); //  diminishing array, will decrease in size each time an index is randomly selected until it is empty. 
+  while(da.length >0){
+    var index = nextRandomIndex(da);
+    var item= da.splice(index,1); //removes and returns the element at index.
+    item.count=counter++;
+ //   console.log('random item at: ' + item.count + '  is: ' + JSON.stringify(item));
+    byCount.set(item.count, item);
+ }
+console.log('ByCount map contains: ' + byCount.size);
+}//function
 var getByCount=function(cnt){
-console.log("Getting the item at count: " + cnt);
-var item = byCount.get(cnt);
-console.log("Item is: " + JSON.stringify(item));
-return item;
+  var item = byCount.get(cnt)[0]; // for some reason, this returns an array.
+//  console.log("Item at count: " + cnt + ' is: ' + JSON.stringify(item));
+  return item;
 } //function
-var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
+var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
+} //function
  this.displayMainPage = function(req, res, next) {
         "use strict";
            console.log('Entered displayMainPage with req: '+ JSON.stringify(req) + ' and res: ' + JSON.stringify(res));
@@ -90,7 +103,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
               ballDirection = scoreB-scoreA;
            }else{
              title = 'Americas Cup of English';
-             var item = byCount.get(count); 
+             var item = getByCount(count); 
              if(item === null) throw({error: 'item is not found at count: ' + count})
              question = item.q;
              answer = 'Do not display until answered';
@@ -160,10 +173,10 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
               ballDirection = scoreB-scoreA;
           }else{
          title = 'Americas Cup of English';
-         var item = byCount.get(count); 
+         var item = getByCount(count); 
          if(item === null) throw({error: 'item is not found at count: ' + count})
          question = item.q;
-         answer = item.a;
+         answer = 'Do not display until answered';
          }
          var  params = {
            name :title 
@@ -189,7 +202,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
              var count = asNumber(req.body.remaining);
              var ballDirection = asNumber(req.body.ballDirection);
              var ballLocation = asNumber(req.body.ballLocation);
-             var title, question, answer;
+             var title, question, answer, item;
  
                count--; //for index of next question.
                if(count<1){
@@ -198,12 +211,13 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                  answer = 'You are all winners!!!';
                  ballDirection = scoreB-scoreA;
                }else{
-                 var item = byCount.get(count);
+                 item =getByCount(count);
                  if(item === null) throw({error: 'item is not found at count: ' + count})
+                 console.log('returned item: ' + JSON.stringify(item));
                  title= 'Americas Cup of English';
                  question = item.q;
                  answer = 'Do not show until answered.';
-               console.log('Entered displayQuestion with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count );
+               console.log('Entered displayQuestion with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count + ' question: ' +  item.q );
              }
             return res.render('football', {
                    name : title
@@ -230,7 +244,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
             var ballLocation = asNumber(req.body.ballLocation);
 
            console.log('Entered displayAnswer with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count );
-           var item = byCount.get(count);
+           var item = getByCount(count);
            if(item === null) throw({error: 'item is not found at count: ' + count})
            return res.render('football', {
                   name : 'Americas Cup of English'
@@ -247,22 +261,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);}
                 , rightArrowIsVisible : (ballDirection>0)? 1 : 0
            }
            ); //render
-}//function
-
-/* ------------------
-game: Copa de America: <%= name %>
-clock: '<%=remaining%>' width= 50px readonly ></div>
-AScore:'<%=scoreA%>'>
-BScore '<%=scoreB%>'>
-team:  '<%=Team%>'
-question:'<%=questionA%>
-answer: '<%=answerA%>'
-ballLocation: <%=ballLocation%>
-ballpx:  '<%=pxpos%>'                                                                 
-ballDir: '<%=ballDirection%>'
-leftArrow: '<%=leftArrowIsVisible%>'
-rightArrow: <%=rightArrowIsVisible%>
- ---------------------*/
+}//function  
 console.log('Finished contentHandler.')
 }   //ContentHandler.
 

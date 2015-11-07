@@ -22,8 +22,8 @@
 #buttons {position: absolute; top: -126px; font-size: 14em; left: 379px; }
 .button {margin:2px;background-color:lightgrey}
 #questions {position: absolute; left: 0em; top: 0px; background-color: lightblue; width: 300px;     height: 835px; }
-#timer {position: absolute;top: 0em; left: .5em;  font-size: xx-large; }
-#timer30 {position:absolute; top: 527px; left: 11em;}
+#timer {position: absolute;top: 0em; left: .5em;  font-size: xx-large;}
+#timer30 {position:absolute; top: 522px; left: 11em;}
 #txt {position: relative; left: 4em; top: -1.5em;}
 #falta {position: absolute; font-size: x-large; width: 50px;    text-align: center; } 
 #scores{ font-size: x-large;position: relative; top: 2em;} 
@@ -82,8 +82,8 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
            <input  type='submit' class = "button" id="quest" value="Question" formaction='/question' formmethod="post" formenctype="application/x-www-form-urlencoded" /> 
                <textArea id="question_A" class= "q_A" font-size="1.2em" rows="15" cols="10" ><%=questionA%> </textArea>
                <div id="betweenQA">
-                <label class="AnswerLabel" >Answer: </label>
-	        <input type='submit' id="showAnswer" class="button"  value="Answer" formaction='/answer' formmethod="post" formenctype="application/x-www-form-urlencoded" /> 
+                <label class="AnswerLabel" >Response </label>
+	        <input type='submit' id="showAnswer" class="button"  value="Response" formaction='/answer' formmethod="post" formenctype="application/x-www-form-urlencoded" /> 
                </div>
                <textArea id="answer_A" class= "q_A" rows="5" cols="10"><%=answerA%> </textArea>
         </div>
@@ -107,6 +107,29 @@ var homer = document.getElementById("homer");
 var limit = 30; //30 seconds
 var start, endMs, enabled, display = document.getElementById("txt");
 $(document).ready( function(){
+$(document).keyup( function(event){
+console.log('Key was: ' + event.which)
+if(73 === event.which) { 
+//    alert('Pressed key for : Next Question'  );
+ $("#showAnswer").trigger( "click" );
+}
+if(74 === event.which) { 
+//    alert('Pressed key for : Next Question'  );
+ $("#quest").trigger( "click" );
+}
+if(75 === event.which) { 
+//   alert('Pressed key for : Start question timer'  );
+ $("#start").trigger("click");
+}
+if(76 === event.which) { 
+//    alert('Pressed key for : Advance ball'  );
+ $("#adv").trigger("click");
+}
+if(186  === event.which) { 
+//   alert('Pressed key for : Change Possession' )
+ $("#dir").trigger("click");
+}
+});
 $('#start').on( "click", function() {
   console.log( 'Clicked start timer.');
  init();
