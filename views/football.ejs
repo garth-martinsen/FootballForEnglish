@@ -7,7 +7,12 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
 <style>
 #game {position: absolute; left: 300px; top: 0px; background-color: lightgreen; width: 1200px; height: 835px;}
-
+.flag {position:"absolute"; left:110px; top:244px;width: 130px; height: 95px;  }
+#chile{z-index:0; position: absolute; }
+#brasil{z-index:0; position:absolute; }
+#argentina {z-index:0; position:absolute; }
+#left {z-index:1}
+#right {z-index:1}
 #field {position:absolute; left: 350px; top: 83px; background-color:green }
 .qf { width: 250px; height: 600px; float: left; z-index:2; }
 #qfa {position: absolute; left: -320px;}
@@ -23,7 +28,7 @@
 .button {margin:2px;background-color:lightgrey}
 #questions {position: absolute; left: 0em; top: 0px; background-color: lightblue; width: 300px;     height: 835px; }
 #timer {position: absolute;top: 0em; left: .5em;  font-size: xx-large;}
-#timer30 {position:absolute; top: 522px; left: 11em;}
+#timer30 {position:absolute; top: 536px; left: 11em;}
 #txt {position: relative; left: 4em; top: -1.5em;}
 #falta {position: absolute; font-size: x-large; width: 50px;    text-align: center; } 
 #scores{ font-size: x-large;position: relative; top: 2em;} 
@@ -60,6 +65,9 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
          <img id="ball" src="/images/ball.png" left=pxpos>
          <img id="leftArrow" src="/images/ArrowLeft.png" >
          <img id="rightArrow" src="/images/ArrowRight.png" >
+         <img id="chile" class="flag" src="/images/BanderaChile.png" >
+         <img id="argentina" class="flag" src="/images/BanderaArgentina.png" >
+         <img id="brasil" class="flag" src="/images/BanderaBrasil.png" >
 </div>
       <div id='buttons'>
         <input type="submit" class = "button" id="dir" value="Change Possession" formaction='/possession' formmethod="post" formenctype="application/x-www-form-urlencoded" />

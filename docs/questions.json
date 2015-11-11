@@ -42,7 +42,7 @@
 {"a":"Go West.","count":63,"q":"Como se dice hacia el oeste?","set":1,"type":"Direcciones."}
 {"a":"Cold","count":87,"q":"What is the opposite of: Hot ?","set":1,"type":"Opuestos"}
 {"a":"Clean","count":89,"q":"What is the opposite of: Dirty ?","set":1,"type":"Opuestos"}
-{"a":"Left","count":51,"q":"What is the opposite of: Right ?","set":1,"type":"Opuestos"}
+{"a":"Left or Wrong","count":51,"q":"What is the opposite of: Right ?","set":1,"type":"Opuestos"}
 {"a":"Sad","count":36,"q":"What is the opposite of: Happy ?","set":1,"type":"Opuestos"}
 {"a":"Large","count":52,"q":"What is the opposite of: Small ?","set":1,"type":"Opuestos"}
 {"a":"Awake","count":98,"q":"What is the opposite of: Asleep?","set":1,"type":"Opuestos"}
@@ -78,27 +78,27 @@
 {"a":"Ear","count":82,"q":"Como se dice ovido en ingles?","set":1,"type":"Body"}
 {"a":"Nose","count":43,"q":"Como se dice nariz en ingles?","set":1,"type":"Body"}
 {"a":"Mouth","count":47,"q":"Como se dice boca en ingles?","set":1,"type":"Body"}
-{"a":"One plus three equals four","count":40,"q":"Diga problema y solution en ingles: 1+3=? ?","set":1,"type":"Numbers"}
-{"a":"Seven minus three equals four","count":35,"q":"Diga problema y solution en ingles: 7-3=? ?","set":1,"type":"Numbers"}
-{"a":"Three plus Seven equals ten","count":21,"q":"Diga problema y solution en ingles: 3+7=? ?","set":1,"type":"Numbers"}
-{"a":"Two minus one equals one","count":18,"q":"Diga problema y solution en ingles: 2-1=? ?","set":1,"type":"Numbers"}
-{"a":"One plus one equals two","count":41,"q":"Diga problema y solution en ingles: 1+1=? ?","set":1,"type":"Numbers"}
-{"a":"Four plus five equals nine","count":74,"q":"Diga problema y solution en ingles: 4+5=? ?","set":1,"type":"Numbers"}
-{"a":"Three plus five equals eight","count":20,"q":"Diga problema y solution en ingles: 3+5=? ?","set":1,"type":"Numbers"}
-{"a":"Present","count":20,"q":"What tense?(past, present,future): The pencil is on the desk","set":1,"type":"Tense"}
-{"a":"Past","count":20,"q":"What tense?(past, present,future): I ate my sandwich","set":1,"type":"Tense"}
-{"a":"Past","count":20,"q":"What tense?(past, present,future): We had a fun party!","type":"Tense"}
-{"a":"Future","count":20,"q":"What tense?(past, present,future): We will do it later! ","type":"Tense"}
-{"a":"Present","count":20,"q":"What tense?(past, present,future): He is outside.","type":"Tense"}
-{"a":"is","count":20,"q":"Conjugate verb(am, is, are): Jim ___ hungry.","type":"Verb Conjugation"}
-{"a":"are","count":20,"q":"Conjugate verb(am, is, are): Bill and Patty  ___ lost.","type":"Verb Conjugation"}
-{"a":"are","count":20,"q":"Conjugate verb(am, is, are): We  ___ at home.","type":"Verb Conjugation"}
-{"a":" is singing","count":20,"q":"Conjugate verb(am running, is singing, are eating): Billy ___ .","type":"Verb Conjugation"}
-{"a":" am not going","count":20,"q":"Conjugate verb(a. am not going b. is grateful c. are asking her): I ______","type":"Verb Conjugation"}
-{"a":"Jim","count":20,"q":"Conjugate verb(a. Jim b. her c. they): What is  ______ doing? ","type":"Verb Conjugation"}
-{"a":"they","count":20,"q":"Conjugate verb(a. he b. they c. Tim): What are ________________ bringing?","type":"Verb Conjugation"}
-{"a":"its","count":20,"q":"Conjugate verb(a. its b. she c. him):  My dog lost _______________ collar.","type":"Verb Conjugation"}
-{"a":"us","count":20,"q":"Conjugate verb(a. she b. he c. us): The horses belong to _____________ . ","type":"Verb Conjugation"}
+{"a":"One plus three equals four","count":40,"q":"Diga problema y solución en ingles: 1+3=? ?","set":1,"type":"Numbers"}
+{"a":"Seven minus three equals four","count":35,"q":"Diga problema y solución en ingles: 7-3=? ?","set":1,"type":"Numbers"}
+{"a":"Three plus Seven equals ten","count":21,"q":"Diga problema y solución en ingles: 3+7=? ?","set":1,"type":"Numbers"}
+{"a":"Two minus one equals one","count":18,"q":"Diga problema y solución en ingles: 2-1=? ?","set":1,"type":"Numbers"}
+{"a":"One plus one equals two","count":41,"q":"Diga problema y solución en ingles: 1+1=? ?","set":1,"type":"Numbers"}
+{"a":"Four plus five equals nine","count":74,"q":"Diga problema y solución en ingles: 4+5=? ?","set":1,"type":"Numbers"}
+{"a":"Three plus five equals eight","count":20,"q":"Diga problema y solución en ingles: 3+5=? ?","set":1,"type":"Numbers"}
+{"a":"Present","count":20,"q":"What tense?): The pencil is on the desk.(past, present,future","set":1,"type":"Tense"}
+{"a":"Past","count":20,"q":"What tense? I ate my sandwich( past,  present,  future)","set":1,"type":"Tense"}
+{"a":"Past","count":20,"q":"What tense?: We had a fun party! (past, present,future","type":"Tense"}
+{"a":"Future","count":20,"q":"What tense?: We will do it later!(past, present,future) ","type":"Tense"}
+{"a":"Present","count":20,"q":"What tense? He is outside. (past, present,future): ","type":"Tense"}
+{"a":"is","count":20,"q":"Fill in Blank: Jim  ___ hungry.(am, is, are) ","type":"Verb Conjugation"}
+{"a":"are","count":20,"q":"Fill in Blank(am, is, are): Bill and Patty  ___ lost.","type":"Verb Conjugation"}
+{"a":"are","count":20,"q":"Fill in Blank(am, is, are): We  ___ at home.","type":"Verb Conjugation"}
+{"a":" is singing","count":20,"q":"Fill in Blank(am running, is singing, are eating): Billy ___ .","type":"Verb Conjugation"}
+{"a":" am not going","count":20,"q":"Fill in Blank: I ______(a. am not going b. is grateful c. are asking her)","type":"Verb Conjugation"}
+{"a":"Jim","count":20,"q":"Fill in Blank: What is  ______ doing? (a. Jim b. her c. they)","type":"Verb Conjugation"}
+{"a":"they","count":20,"q":"Fill in Blank): What are ____ bringing?(a. he b. they c. Tim)","type":"Verb Conjugation"}
+{"a":"its","count":20,"q":"Fill in Blank:  My dog lost _______________ collar.(a. its b. she c. him)","type":"Verb Conjugation"}
+{"a":"us","count":20,"q":"Fill in Blank: The horses belong to _____________ .(a. she b. he c. us) ","type":"Verb Conjugation"}
 {"a":"Monday","count":20,"q":"¿Como se dice _____ lunes_____ en Inglés?","type":"Days of the Week"}
 {"a":"Tuesday","count":20,"q":"¿Como se dice _____martes___  en Inglés?","type":"Days of the Week"}
 {"a":"Wednesday","count":20,"q":"¿Como se dice ___miércoles___ en Inglés?","type":"Days of the Week"}

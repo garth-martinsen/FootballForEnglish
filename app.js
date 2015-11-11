@@ -9,6 +9,8 @@ var express = require('express')
   var app = express();
   app.use(express.static('public'));
   app.ballPositions= ["-349px","-116px","163px","454px","676px" ];
+  var startingPossession = (Math.random()<0.5)? -1 : 1;
+  console.log('StartingPossession: ' + startingPossession )
   var params= {
    'name' : 'Americas Cup of English' 		// <%= name %>
    ,'remaining':100				//<%=remaining%> 
@@ -17,12 +19,11 @@ var express = require('express')
    ,'team' : 'team'				//'<%=team%>'
    ,'questionA': "What is the opposite of Tall?"//'<%=questionA%>'
    , answerA: 'The opposite of Tall is Short.'	//'<%=answerA%>'
-   , ballLocation: 0				//<%=ballLocation%>
-   , pxpos: app.ballPositions[0]		//'<%=pxpos%>'
-   , ballDirection : 1				//<%=ballDirection%>
-   , leftArrowIsVisible : 0			//<%=leftArrowIsVisible%>'
-   , rightArrowIsVisible : 1			//<%=rightArrowIsVisible%>'
-   , timing : false				//<%=timing%>'
+   , ballLocation: 2				//<%=ballLocation%>
+   , pxpos: app.ballPositions[2]		//'<%=pxpos%>'
+   , ballDirection : startingPossession		//<%=ballDirection%>
+   , leftArrowIsVisible :(startingPossession<0)?1:0			//<%=leftArrowIsVisible%>'
+   , rightArrowIsVisible :(startingPossession>0)?1:0 			//<%=rightArrowIsVisible%>'
  };
   console.log()
   console.log('*************************************************')

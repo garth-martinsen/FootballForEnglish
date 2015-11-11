@@ -10,6 +10,7 @@ var $ = require('jquery');
 /* ---------------The ContentHandler must be constructed with a connected db -------- */
 
       var byCount= new Map;
+      // will need to modify following, if Brasil participates.
       var teams=new Map;
       teams.set(1, 'Chile');
       teams.set(-1, 'Argentina');
@@ -235,6 +236,16 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
             }
             ); //render
  }//function
+/*------
+	ballLocation:2/
+	ballDirection:1/
+	leftArrowIsVisible:0/
+	rightArrowIsVisible:1/
+	remaining:100/
+	pxpos:163px
+	scoreA:0
+	scoreB:0
+-------*/
  this.displayAnswer = function(req, res, next) {
         "use strict";
             var scoreA =asNumber(req.body.scoreA);
