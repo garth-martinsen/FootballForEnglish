@@ -107,8 +107,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
                 , scoreB : scoreB
                 , team: team
                 , mode: mode
-                ,'questionA': '     ' 
-                , answerA: '     ' 
+                ,'questionA': '' 
+                , answerA: '' 
                 , ballLocation: ballLocation
                 , pxpos: ballPositions[ballLocation]
                 , ballDirection : ballDirection
@@ -164,8 +164,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
          , scoreB :  scoreB
          , team:team
          , mode: mode
-         , questionA : '     ' 
-         , answerA :  '     '
+         ,'questionA': '' 
+         , answerA: '' 
          , ballLocation : ballLocation 
          , pxpos : ballPositions[ballLocation] 
          , ballDirection : ballDirection 
