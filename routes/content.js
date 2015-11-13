@@ -98,7 +98,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
            var leftArrowIsVisible = (poss ^ 1); 
            ballDirection = - ballDirection;
 //            count-- ;  // only decrement count when a question is displayed.
-           console.log('...Changed possession to: ' +  leftArrowIsVisible  + ', ballDirection to: ' + ballDirection + ' with ballLocation: ' + ballLocation );
+           console.log('...Changed possession. New ballDirection is: ' + ballDirection + ' with ballLocation: ' + ballLocation );
            return res.render('football', 
                {  
                  name : 'Americas Cup of English'
@@ -138,7 +138,6 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
            var team = asNumber(req.body.team);
            var mode = asNumber(req.body.mode);
 
- //          console.log('Entered displayAdvance from: ' + ballLocation + ' in direction: ' + ballDirection + ' questionsRemaining: ' + count );
            if( ballDirection === 1){
              ballLocation++; 
            } else if(ballDirection === -1){
@@ -150,13 +149,15 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
                scoreA++;
                ballDirection = -ballDirection;
                poss = poss^1;
+               console.log('Goal!!!');
            } 
            else if(ballLocation === 4 && ballDirection===1) {
                scoreB++;
                ballDirection = -ballDirection;
                poss = poss^1;
+               console.log('Goal!!!');
            }
-//           count--;      // only decrement count when a question is displaed.
+           console.log('Advanced ball to: ' + ballLocation + ' in direction: ' + ballDirection + ' questionsRemaining: ' + count );
          var  params = {
            name :'Americas Cup of English' 
          , remaining : count 
@@ -228,9 +229,9 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
             var team = asNumber(req.body.team);
             var mode = asNumber(req.body.mode);
 
-           console.log('Entered displayAnswer with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count );
            var item = getByCount(count);
            if(item === null) throw({error: 'item is not found at count: ' + count})
+           console.log('Entered displayAnswer with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count + ' answer: ' + item.a);
            return res.render('football', {
                   name : 'Americas Cup of English'
                 , remaining: count
