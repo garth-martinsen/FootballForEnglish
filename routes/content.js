@@ -62,7 +62,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
                 , remaining:100
                 , scoreA : scoreA
                 , scoreB : scoreB
-                , team:teams.get(ballDirection) 
+                , team: team 
+                , mode: mode 
                 ,'questionA': "What is the opposite of Tall?"
                 , answerA: 'The opposite of Tall is Short.'
                 , ballLocation: ballLocation
@@ -74,7 +75,7 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
             );
  }//function
 
-
+// a change of direction, or change of possession no longer displays the next question. The next question is displayed only upon pressing the button "question"
  this.changePossession = function(req, res, next) {
         "use strict";
           //if z-index of LeftArrow is 0, rightArrow is shown, else leftArrow z-index=1, leftArrow is shown.
@@ -90,35 +91,24 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
            var poss = Number(pss[0]);
            var scoreA = Number(sA[0]);
            var scoreB = Number(sB[0]);
+           var team = asNumber(req.body.team);
+           var mode = asNumber(req.body.mode);
            var title, question, answer;
 //           console.log('Entered content.displayChangePossession poss: ' + poss + ', direction: ' + ballDirection + ' with location: ' + ballLocation );
            var leftArrowIsVisible = (poss ^ 1); 
            ballDirection = - ballDirection;
-           count-- ;
-       // See if the game is over. It stops when count <1.
-           if(count<1){
-              title= 'Americas Cup of English Is Over!!!';
-              question = 'Great game!!!';
-              answer = 'You are all winners!!!';
-              ballLocation=2;
-              ballDirection = scoreB-scoreA;
-           }else{
-             title = 'Americas Cup of English';
-             var item = getByCount(count); 
-             if(item === null) throw({error: 'item is not found at count: ' + count})
-             question = item.q;
-             answer = 'Do not display until answered';
-          }
+//            count-- ;  // only decrement count when a question is displayed.
            console.log('...Changed possession to: ' +  leftArrowIsVisible  + ', ballDirection to: ' + ballDirection + ' with ballLocation: ' + ballLocation );
            return res.render('football', 
                {  
-                 name : title
+                 name : 'Americas Cup of English'
                 , remaining:count
                 , scoreA : scoreA
                 , scoreB : scoreB
-                , team:teams.get(ballDirection) 
-                ,'questionA': question 
-                , answerA: answer 
+                , team: team
+                , mode: mode
+                ,'questionA': '     ' 
+                , answerA: '     ' 
                 , ballLocation: ballLocation
                 , pxpos: ballPositions[ballLocation]
                 , ballDirection : ballDirection
@@ -145,6 +135,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
            var scoreA = Number(sA[0]);
            var scoreB = Number(sB[0]);
            var question, answer, title;
+           var team = asNumber(req.body.team);
+           var mode = asNumber(req.body.mode);
 
  //          console.log('Entered displayAdvance from: ' + ballLocation + ' in direction: ' + ballDirection + ' questionsRemaining: ' + count );
            if( ballDirection === 1){
@@ -164,29 +156,16 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
                ballDirection = -ballDirection;
                poss = poss^1;
            }
-          count--;
-          // See if the game is over. It stops when count <1. 
-          if(count<1){
-              title= 'Americas Cup of English Is Over!!!';
-              question = 'Great game!!!';
-              answer = 'You are all winners!!!';
-              ballLocation=2;
-              ballDirection = scoreB-scoreA;
-          }else{
-         title = 'Americas Cup of English';
-         var item = getByCount(count); 
-         if(item === null) throw({error: 'item is not found at count: ' + count})
-         question = item.q;
-         answer = 'Do not display until answered';
-         }
+//           count--;      // only decrement count when a question is displaed.
          var  params = {
-           name :title 
+           name :'Americas Cup of English' 
          , remaining : count 
          , scoreA : scoreA 
          , scoreB :  scoreB
-         , team:teams.get(ballDirection) 
-         , questionA : question 
-         , answerA :  answer
+         , team:team
+         , mode: mode
+         , questionA : '     ' 
+         , answerA :  '     '
          , ballLocation : ballLocation 
          , pxpos : ballPositions[ballLocation] 
          , ballDirection : ballDirection 
@@ -203,6 +182,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
              var count = asNumber(req.body.remaining);
              var ballDirection = asNumber(req.body.ballDirection);
              var ballLocation = asNumber(req.body.ballLocation);
+             var team = asNumber(req.body.team);
+             var mode = asNumber(req.body.mode);
              var title, question, answer, item;
  
                count--; //for index of next question.
@@ -225,7 +206,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
                  , remaining:count
                  , scoreA : scoreA
                  , scoreB : scoreB
-                 , team:teams.get(-ballDirection) 
+                 , team:team
+                 , mode	:mode	
                  , questionA:question
                  , answerA:answer
                  , ballLocation: ballLocation
@@ -236,16 +218,6 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
             }
             ); //render
  }//function
-/*------
-	ballLocation:2/
-	ballDirection:1/
-	leftArrowIsVisible:0/
-	rightArrowIsVisible:1/
-	remaining:100/
-	pxpos:163px
-	scoreA:0
-	scoreB:0
--------*/
  this.displayAnswer = function(req, res, next) {
         "use strict";
             var scoreA =asNumber(req.body.scoreA);
@@ -253,6 +225,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
             var count = asNumber(req.body.remaining);
             var ballDirection = asNumber(req.body.ballDirection);
             var ballLocation = asNumber(req.body.ballLocation);
+            var team = asNumber(req.body.team);
+            var mode = asNumber(req.body.mode);
 
            console.log('Entered displayAnswer with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count );
            var item = getByCount(count);
@@ -262,7 +236,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
                 , remaining: count
                 , scoreA : scoreA
                 , scoreB : scoreB
-                , team:teams.get(ballDirection) 
+                , team: team
+                , mode :mode  
                 , questionA:item.q 
                 , answerA:item.a 
                 , ballLocation: ballLocation
@@ -277,3 +252,4 @@ console.log('Finished contentHandler.')
 }   //ContentHandler.
 
 module.exports = ContentHandler;
+
