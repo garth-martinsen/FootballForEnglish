@@ -36,7 +36,7 @@ var randomize = function() {
 // start with allQuestions from db, and counter set to zero.
   var counter = 0;
 // copy allQuestions into a diminishingArray, da. While da is not empty, randomly remove an item from da and insert it into byCount map.
-  var da = allQuestions.slice(0,allQuestions.length); //  diminishing array, will decrease in size each time an index is randomly selected until it is empty. 
+  var da = allQuestions.slice(0,allQuestions.length); //  diminishing array, will decrease in size each time an index is randomly selected and removed, `until it is empty. 
   while(da.length >0){
     var index = nextRandomIndex(da);
     var item= da.splice(index,1); //removes and returns the element at index.
@@ -47,30 +47,72 @@ var randomize = function() {
 console.log('ByCount map contains: ' + byCount.size);
 }//function
 var getByCount=function(cnt){
-  var item = byCount.get(cnt)[0]; // for some reason, this returns an array.
+  var item = byCount.get(cnt)[0]; // for some reason, get() returns an array, so just take first element.
 //  console.log("Item at count: " + cnt + ' is: ' + JSON.stringify(item));
   return item;
 } //function
 var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
 } //function
+var constants4Game=function(req){
+ var c4game ={};
+  c4game.leftFlag = req.body.leftFlag4Game;
+  c4game.rightFlag = req.body.rightFlag4Game;
+  c4game.leftArrow = req.body.leftArrow4Game;
+  c4game.rightArrow = req.body.rightArrow4Game;
+  c4game.leftScoreBar = req.body.leftScoreBar4Game;
+  c4game.rightScoreBar = req.body.rightScoreBar4Game;
+  c4game.leftGoalBar4Game = req.body.leftGoalBar4Game;
+  c4game.rightGoalBar4Game = req.body.rightGoalBar4Game;
+return c4game;
+}
+this.gameSetUp = function(req, res, next){
+console.log('Entered function gameSetUp()');
+}//function
  this.displayMainPage = function(req, res, next) {
         "use strict";
-           console.log('Entered displayMainPage with req: '+ JSON.stringify(req) + ' and res: ' + JSON.stringify(res));
+           var ballLocation = 2; //midfield.
+          //random draw determines ball direction.
+           var ballDirection = (Math.random()<0.5)? -1 : 1; //   startingPossession 
+           console.log('StartingPossession: ' + ballDirection )
+           // From the game setup page.
+           var count = asNumber(req.body.remaining);
+           var c4g = constants4Game(req);
+           console.log('c4g is: ' + JSON.stringify(c4g));
+           console.log('Entered displayMainPage with:'      
+               +  '\nleftArrow: '+ c4g.leftArrow 
+               +  '\nright Arrow: ' + c4g.rightArrow 
+               +  '\nleftScoreBar: '+ c4g.leftScoreBar 
+               +  '\nrightScoreBar: ' + c4g.rightScoreBar 
+               +  '\nleftGoalBar: '+ c4g.leftGoalBar4Game 
+               +  '\nrightGoalBar: ' + c4g.rightGoalBar4Game 
+               +  '\nleftFlag: '+ c4g.leftFlag 
+               +  '\nrightFlag: ' + c4g.rightFlag );                
+   
+            // Render the game display to explain the rules and show example question and answer.
             return res.render('football', 
               {
-                 'name' : 'Americas Cup of English'
-                , remaining:100
-                , scoreA : scoreA
-                , scoreB : scoreB
-                , team: team 
-                , mode: mode 
-                ,'questionA': "What is the opposite of Tall?"
-                , answerA: 'The opposite of Tall is Short.'
+                  name : 'Americas Cup of English'
+                , remaining: count
+                , leftScore: 0
+                , rightScore: 0
+                , team: '' 
+                , mode: '' 
+                ,'questionA': "Example: What is the opposite of Tall?"
+                , answerA: 'Example: The opposite of Tall is Short.'
                 , ballLocation: ballLocation
                 , pxpos: ballPositions[ballLocation]
-                , ballDirection : 0
+                , ballDirection : ballDirection
                 , leftArrowIsVisible:(ballDirection>0)? 0 : 1 
                 , rightArrowIsVisible : (ballDirection>0)? 1 : 0
+
+                , leftScoreBar4Game : c4g.leftScoreBar
+                , rightScoreBar4Game : c4g.rightScoreBar
+                , leftGoalBar4Game: c4g.leftGoalBar4Game
+                , rightGoalBar4Game: c4g.rightGoalBar4Game
+		, leftFlag4Game : c4g.leftFlag 
+                , rightFlag4Game : c4g.rightFlag
+		, leftArrow4Game : c4g.leftArrow 
+                , rightArrow4Game : c4g.rightArrow
               }
             );
  }//function
@@ -78,66 +120,71 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
 // a change of direction, or change of possession no longer displays the next question. The next question is displayed only upon pressing the button "question"
  this.changePossession = function(req, res, next) {
         "use strict";
-          //if z-index of LeftArrow is 0, rightArrow is shown, else leftArrow z-index=1, leftArrow is shown.
-           var cnt = req.body.remaining.match(/[-0-9]+/g); // This will be a number between 100 and 0. If it is negative, the game is over
-           var bl =req.body.ballLocation.match(/[0-9]+/g);  
-           var bd =req.body.ballDirection.match(/[-0-9]+/g);  
-           var pss = req.body.leftArrowIsVisible.match(/[0-9]+/g); // This will be a zero(show RightArrow) or a one (show LeftArrow).
-           var sA =req.body.scoreA.match(/[-0-9]+/g);  
-           var sB =req.body.scoreB.match(/[-0-9]+/g);  
-           var count = Number(cnt[0]);
-           var ballLocation = Number(bl[0]);
-           var ballDirection = Number(bd[0]);
-           var poss = Number(pss[0]);
-           var scoreA = Number(sA[0]);
-           var scoreB = Number(sB[0]);
+         var c4g = constants4Game(req);
+       console.log('In changePossession, c4g is: ' + JSON.stringify(c4g));
+           var leftScore =asNumber(req.body.leftScore);
+           var rightScore =asNumber(req.body.rightScore);  
+           var count = asNumber(req.body.remaining);// This will be a number between 100 and 0. If it is less than 1, the game is over
+           var ballLocation = asNumber(req.body.ballLocation);
+           var ballDirection = asNumber(req.body.ballDirection);
            var team = asNumber(req.body.team);
            var mode = asNumber(req.body.mode);
            var title, question, answer;
-//           console.log('Entered content.displayChangePossession poss: ' + poss + ', direction: ' + ballDirection + ' with location: ' + ballLocation );
-           var leftArrowIsVisible = (poss ^ 1); 
-           ballDirection = - ballDirection;
-//            count-- ;  // only decrement count when a question is displayed.
+           //purpose of call is to change direction of ball movement.
+           ballDirection = -ballDirection;
            console.log('...Changed possession. New ballDirection is: ' + ballDirection + ' with ballLocation: ' + ballLocation );
            return res.render('football', 
                {  
-                 name : 'Americas Cup of English'
-                , remaining:count
-                , scoreA : scoreA
-                , scoreB : scoreB
-                , team: team
-                , mode: mode
-                ,'questionA': '' 
-                , answerA: '' 
-                , ballLocation: ballLocation
-                , pxpos: ballPositions[ballLocation]
+                  name : 'Americas Cup of English'
+                , remaining : count
+                , leftScore : leftScore
+                , rightScore : rightScore
+                , team : team
+                , mode : mode
+                , questionA : '' 
+                , answerA : '' 
+                , ballLocation : ballLocation
+                , pxpos : ballPositions[ballLocation]
                 , ballDirection : ballDirection
-                , leftArrowIsVisible:(ballDirection>0)? 0 : 1 
+                , leftArrowIsVisible :(ballDirection>0)? 0 : 1 
                 , rightArrowIsVisible : (ballDirection>0)? 1 : 0
+
+                , leftScoreBar4Game  : c4g.leftScoreBar
+                , rightScoreBar4Game : c4g.rightScoreBar
+                , leftGoalBar4Game   : c4g.leftGoalBar4Game
+                , rightGoalBar4Game  : c4g.rightGoalBar4Game
+                , leftFlag4Game      : c4g.leftFlag
+                , rightFlag4Game     : c4g.rightFlag
+                , leftArrow4Game     : c4g.leftArrow
+                , rightArrow4Game    : c4g.rightArrow
                }
            );
+         
  }//function
 //This function will move the ball to the next location and decrements remaining question count by 1. 
  this.advanceBall = function(req, res, next) {
         "use strict";
-
-           var bl= (req.body.ballLocation).match(/[0-9]+/g);
-           var bd= (req.body.ballDirection).match(/[-0-9]+/g);
-           var cnt = req.body.remaining.match(/[0-9]+/g);
-           var pss = req.body.leftArrowIsVisible.match(/[0-9]+/g);
-           var sA =req.body.scoreA.match(/[-0-9]+/g);  
-           var sB =req.body.scoreB.match(/[-0-9]+/g);  
-
-           var ballLocation = Number(bl[0]); 
-           var ballDirection = Number(bd[0]);
-           var count = Number(cnt[0]); 
-           var poss = Number(pss[0]);
-           var scoreA = Number(sA[0]);
-           var scoreB = Number(sB[0]);
            var question, answer, title;
-           var team = asNumber(req.body.team);
-           var mode = asNumber(req.body.mode);
+           var c4g = constants4Game(req);
+       console.log('In advanceBall , c4g is: ' + JSON.stringify(c4g));
 
+           var count = asNumber(req.body.remaining);
+ console.log('3. count: '+ count);
+           var leftScore =asNumber(req.body.leftScore);
+ console.log('1. leftScore: '+leftScore);
+           var rightScore =asNumber(req.body.rightScore);
+ console.log('2. rightScore: '+ rightScore);
+           var ballLocation = asNumber(req.body.ballLocation);
+ console.log('5. ballLocation: '+ ballLocation );
+ console.log('5a. pxpos: '+ ballPositions[ballLocation] );
+           var ballDirection = asNumber(req.body.ballDirection);
+ console.log('4. ballDirection: '+ ballDirection );
+           var team = asNumber(req.body.team);
+ console.log('6. team: '+ team );
+           var mode = asNumber(req.body.mode);
+ console.log('7. mode: '+ mode );
+
+           //Advance the ball in the direction of ball position.
            if( ballDirection === 1){
              ballLocation++; 
            } else if(ballDirection === -1){
@@ -146,23 +193,21 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
              console.log('Error. BallDirection is: ' + ballDirection);}
            //After moving check if ball is in Goal. If so, change direction and increment score.
            if(ballLocation === 0 && ballDirection===-1){
-               scoreA++;
+               leftScore++;
                ballDirection = -ballDirection;
-               poss = poss^1;
                console.log('Goal!!!');
            } 
            else if(ballLocation === 4 && ballDirection===1) {
-               scoreB++;
+               rightScore++;
                ballDirection = -ballDirection;
-               poss = poss^1;
                console.log('Goal!!!');
            }
            console.log('Advanced ball to: ' + ballLocation + ' in direction: ' + ballDirection + ' questionsRemaining: ' + count );
          var  params = {
            name :'Americas Cup of English' 
          , remaining : count 
-         , scoreA : scoreA 
-         , scoreB :  scoreB
+         , leftScore: leftScore
+         , rightScore: rightScore
          , team:team
          , mode: mode
          ,'questionA': '' 
@@ -172,27 +217,49 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
          , ballDirection : ballDirection 
          , leftArrowIsVisible:(ballDirection>0)? 0 : 1 
          , rightArrowIsVisible : (ballDirection>0)? 1 : 0
+
+         , leftScoreBar4Game : c4g.leftScoreBar
+         , rightScoreBar4Game : c4g.rightScoreBar
+         , leftGoalBar4Game: c4g.leftGoalBar4Game
+         , rightGoalBar4Game: c4g.rightGoalBar4Game
+         , leftFlag4Game : c4g.leftFlag
+         , rightFlag4Game : c4g.rightFlag
+         , leftArrow4Game : c4g.leftArrow
+         , rightArrow4Game : c4g.rightArrow
           }; 
 
     return res.render('football',params );
  }//function
   this.displayQuestion = function(req, res, next) {
          "use strict";
-             var scoreA =asNumber(req.body.scoreA);
-             var scoreB =asNumber(req.body.scoreB);
+       var c4g= constants4Game(req);
+       console.log('In displayQuestion, c4g is: ' + JSON.stringify(c4g));
+
+             var leftScore =asNumber(req.body.leftScore);
+ console.log('1. leftScore: '+leftScore);
+             var rightScore =asNumber(req.body.rightScore);
+ console.log('2. rightScore: '+ rightScore);
+
              var count = asNumber(req.body.remaining);
+ console.log('3. count: '+ count);
              var ballDirection = asNumber(req.body.ballDirection);
+ console.log('4. ballDirection: '+ ballDirection );
              var ballLocation = asNumber(req.body.ballLocation);
+ console.log('5. ballLocation: '+ ballLocation );
              var team = asNumber(req.body.team);
+ console.log('6. team: '+ team );
              var mode = asNumber(req.body.mode);
+ console.log('7. mode: '+ mode );
              var title, question, answer, item;
+       console.log('Entered displayQuestion with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count );
+
  
                count--; //for index of next question.
                if(count<1){
                  title= 'Americas Cup of English Is Over!!!';
                  question = 'Great game!!!';
                  answer = 'You are all winners!!!';
-                 ballDirection = scoreB-scoreA;
+                 ballDirection = (scoreB-scoreA)/Math.abs(scoreB-scoreA);
                }else{
                  item =getByCount(count);
                  if(item === null) throw({error: 'item is not found at count: ' + count})
@@ -205,8 +272,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
             return res.render('football', {
                    name : title
                  , remaining:count
-                 , scoreA : scoreA
-                 , scoreB : scoreB
+                 , leftScore: leftScore
+                 , rightScore: rightScore
                  , team:team
                  , mode	:mode	
                  , questionA:question
@@ -216,18 +283,31 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
                  , ballDirection: ballDirection
                  , leftArrowIsVisible: (ballDirection>0)? 0 : 1
                  , rightArrowIsVisible : (ballDirection>0)? 1 : 0
+
+                 , leftScoreBar4Game : c4g.leftScoreBar
+                 , rightScoreBar4Game : c4g.rightScoreBar
+                 , leftGoalBar4Game: c4g.leftGoalBar4Game
+                 , rightGoalBar4Game: c4g.rightGoalBar4Game
+                 , leftFlag4Game : c4g.leftFlag
+                 , rightFlag4Game : c4g.rightFlag
+                 , leftArrow4Game : c4g.leftArrow
+                 , rightArrow4Game : c4g.rightArrow
             }
             ); //render
  }//function
  this.displayAnswer = function(req, res, next) {
         "use strict";
-            var scoreA =asNumber(req.body.scoreA);
-            var scoreB =asNumber(req.body.scoreB);
+            var c4g= constants4Game(req);
+       console.log('In displayAnswer, c4g is: ' + JSON.stringify(c4g));
+
             var count = asNumber(req.body.remaining);
+            var leftScore =asNumber(req.body.leftScore);
+            var rightScore =asNumber(req.body.rightScore);
             var ballDirection = asNumber(req.body.ballDirection);
             var ballLocation = asNumber(req.body.ballLocation);
             var team = asNumber(req.body.team);
             var mode = asNumber(req.body.mode);
+
 
            var item = getByCount(count);
            if(item === null) throw({error: 'item is not found at count: ' + count})
@@ -235,8 +315,8 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
            return res.render('football', {
                   name : 'Americas Cup of English'
                 , remaining: count
-                , scoreA : scoreA
-                , scoreB : scoreB
+                , leftScore: leftScore
+                , rightScore: rightScore
                 , team: team
                 , mode :mode  
                 , questionA:item.q 
@@ -246,6 +326,15 @@ var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
                 , ballDirection: ballDirection
                 , leftArrowIsVisible: (ballDirection>0)? 0 : 1
                 , rightArrowIsVisible : (ballDirection>0)? 1 : 0
+
+                , leftScoreBar4Game : c4g.leftScoreBar
+                , rightScoreBar4Game : c4g.rightScoreBar
+                , leftGoalBar4Game: c4g.leftGoalBar4Game
+                , rightGoalBar4Game: c4g.rightGoalBar4Game
+                , leftFlag4Game : c4g.leftFlag
+                , rightFlag4Game : c4g.rightFlag
+                , leftArrow4Game : c4g.leftArrow
+                , rightArrow4Game : c4g.rightArrow
            }
            ); //render
 }//function  

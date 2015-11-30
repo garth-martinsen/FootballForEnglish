@@ -1,0 +1,227 @@
+
+<!--File: setup.ejs -->
+
+<!---------- passed in parameters -----------
+ 1.                   name : 'Americas Cup of English'
+ 2.                 , remaining: gameSize
+ 3.                 , scoreA : leftScoreBar
+ 4.                 , scoreB : rightScoreBar
+ 5.                 , leftFlag : leftFlag
+ 6.                 , rightFlag : rightFlag
+ 7.                 , leftArrow : leftArrow
+ 8.                 , rightArrow : rightArrow
+ 9.                 , team: ''
+ 10.                 , mode: ''
+ 11.                 ,'questionA': "Example: What is the opposite of Tall?"
+ 12.                 , answerA: 'Example: The opposite of Tall is Short.'
+ 13.                 , ballLocation: ballLocation
+ 14.                , pxpos: ballPositions[ballLocation]
+ 15.                 , ballDirection : ballDirection
+ 16.                 , leftArrowIsVisible:(ballDirection>0)? 0 : 1
+ 17.                 , rightArrowIsVisible : (ballDirection>0)? 1 : 0
+                }
+
+-----------end passed in parameters -------->
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+<style>
+#titleDiv { position: relative; left: 281px; width: 523px; }
+#title {text-align:center; width:523px; font-size:2em;}
+#game {position: absolute; left: 290px;    top: 66px; ; background-color: lightgreen; width: 1200px; height: 835px;}
+#arrows {position:relative; top:40px; }
+#flags { position: relative; left: 464px; }
+#scoreBars { position: relative; top: 175px; left: 100px;}
+.flag {position:"relative"; left:-398px; top:119px;width: 130px; height: 95px;  }
+#chile{z-index:0; position: relative; top: 0px; left: 0px; }
+#brasil{z-index:0; position: relative; top: 0px; left: 0px;} 
+#argentina {z-index:0;     position: relative; top: 0px; left: 0px;}
+#BA {position:relative;}
+#BC {position:relative;}
+#BB {position:relative;} 
+#BM {position:relative;}
+#timer {position: absolute;top: 0em; left: .5em;  font-size: xx-large;}
+#falta {position: absolute; font-size: x-large; width: 50px;    text-align: center; } 
+#scoreBarLeft {position: relative;   overflow:hidden; height:30px; width: 100px; z-index:1;} 
+#scoreBarRight {position: relative;  overflow:hidden; height:30px; width: 100px; z-index:1;}
+#goalBarLeft {-webkit-transform: rotate(-90deg);position:relative; width:100px; height:30px;}
+#goalBarRight {-webkit-transform: rotate(90deg);position:relative; width:100px; height:30px;}
+#gameSize { max-width: 25px; margin: 2px; }
+.scoreInput { position: absolute; left: 4.1em; width: 1em; font-size: 1.1em;text-align:center; }
+.team {font-size:1.2em; vertical-align:top; }
+.scoreBar {height: 30px; width: 100px; }
+.button {margin:2px;background-color:lightgrey}
+.row {height:96px;}
+</style>
+</head>
+
+<body class="container">
+<form>
+<div id="titleDiv">
+ <H1 id='title'><%= name %></H1>
+</div>
+<div id="game">
+<div id="backgrounds" >
+<div id="gameSizeDiv">Game Size: <input type="text" id="gameSize" name="remaining"></div>
+<table id="colorThemes" border="2px" border-color="black">
+<th> side</th> <th> country</th> <th> Arrow</th><th> GoalBar</th> <th> ScoreBar </th> <th> Flag </th> 
+<tr>
+  <td class= "row" > Left </td>
+  <td>
+    <select id="teamLeft" >
+     <option value=1 >Argentina</option>
+     <option value=2 >Chile</option>
+     <option value=3 >Brasil</option>
+     <option value=4 >Mexico</option>
+    </select> 
+  </td>
+<td id="leftArrow4Game" > </td>
+<td id="leftGoalBar4Game" > </td>
+<td id= "leftScoreBar4Game" > </td>
+<td id= "leftFlag4Game" >  </td>
+<tr>
+  <td class= "row" >Right </td>
+  <td> 
+    <select id="teamRight"  >
+     <option value=1 >Argentina</option>
+     <option value=2 >Chile</option>
+     <option value=3 >Brasil</option>
+     <option value=4 >Mexico</option>
+    </select>
+ </td>
+<td  id="rightArrow4Game" > </td>
+<td id="rightGoalBar4Game" > </td>
+<td id= "rightScoreBar4Game"  name="rightScoreBar4Game" >  </td>
+<td id= "rightFlag4Game" name="rightFlag4Game">   </td>
+</table>
+</form>
+     <div id="arrows">
+         <img id="leftArrow" src="/Images/ArrowLeftA.png" >
+         <img id="rightArrow" src="/Images/ArrowRightC.png" >
+         <img id="leftArrow" src="/Images/ArrowLeftB.png" >
+         <img id="rightArrow" src="/Images/ArrowRightM.png" >
+     </div>
+     <div id="flags">
+         <img class="flag" id="BA" src="/Images/BanderaArgentina.png" >
+         <img class="flag" id="BC" src="/Images/BanderaChile.png">
+         <img class="flag" id="BB" src="/Images/BanderaBrasil.png" >
+         <img class="flag" id="BM" src="/Images/BanderaMexico.png">
+     </div>
+     <div id="scoreBars">
+         <img class="scoreBar" src="/Images/ArgentinaScoreBar.png">
+         <img class="scoreBar" src="/Images/ChileScoreBar.png">
+         <img class="scoreBar" src="/Images/BrasilScoreBar.png">
+         <img class="scoreBar" src="/Images/MexicoScoreBar.png">
+    <div>
+</div>
+      <input type="hidden" id= "name" name="name" value="Americas Cup of English"/> 
+      <input type="hidden" id= "la4g" name="leftArrow4Game" value=""/> 
+      <input type="hidden" id= "lsb4g" name="leftScoreBar4Game" value=""/> 
+      <input type="hidden" id= "lgb4g" name="leftGoalBar4Game" value=""/> 
+      <input type="hidden" id= "lf4g" name="leftFlag4Game" value=""/> 
+      <input type="hidden" id= "ra4g" name="rightArrow4Game" value=""/> 
+      <input type="hidden" id= "rf4g" name="rightFlag4Game" value=""/> 
+      <input type="hidden" id= "rsb4g" name="rightScoreBar4Game" value=""/> 
+      <input type="hidden" id= "rgb4g" name="rightGoalBar4Game" value=""/> 
+      <div id='buttons'>
+     <input type="submit" class = "button" id="setup" value="Set up game" formaction='/' formmethod="post" formenctype="application/x-www-form-urlencoded" />
+<script>
+$(document).ready(function(){
+$('.button').prop('disabled', true);
+var flags= ["BanderaArgentina.png",
+            "BanderaChile.png",
+            "BanderaBrasil.png",
+            "BanderaMexico.png"
+ ];
+var arrows= ["A", "C","B","M",]
+var colors=["#739FC4","#D42E12","#F0B819","#FFFFFF"];
+var scoreBars = ["Argentina", "Chile", "Brasil", "Mexico"];
+var sizeIsInput= leftIsInput=rightIsInput=false;
+$('#gameSize').blur(function(){
+ sizeIsInput=true;
+   isReadyToSetup();
+ //alert('sizeIsInput: ' + sizeIsInput);
+});
+//////////Left Team dropdown listeners////////////
+$('#teamLeft').on("change", function(){
+   var index = $('#teamLeft').val();
+   var arrow = getArrow('Left', index);
+   var goalBar = getGoalBar("Left", index);
+   var scoreBar = getScoreBar("Left", index);
+   var flag = getFlag('Left', index);
+   console.log('LeftArrow: ' + arrow);
+   console.log('LeftScoreBar: ' + scoreBar);
+   console.log('LeftGoalBar: ' + goalBar);
+   console.log('Left flag is: '+ flag);
+   // populate the table for visual feedback  
+   $('#leftArrow4Game').html(arrow);
+   $('#leftGoalBar4Game').html(goalBar);
+   $('#leftScoreBar4Game').html(scoreBar);
+
+   // populate the hidden variables which are passed to game view.
+   $('#leftFlag4Game').html(flag);
+   $('#la4g').val(arrow);
+   $('#lsb4g').val(scoreBar);
+   $(lgb4g).val(goalBar);
+   $('#lf4g').val(flag);
+   leftIsInput=true;
+   isReadyToSetup();
+}); //#teamLeft listener.
+
+/////////////Right Team dropdown listener //////////////
+$('#teamRight').on("change", function(){
+  var index = $('#teamRight').val();
+  var flag = getFlag('Right', index);
+  var arrow = getArrow('Right', index);
+  var scoreBar = getScoreBar("Right", index);
+  var goalBar = getGoalBar("Right", index);
+  console.log('RightArrow: ' + arrow);
+  console.log('RightGoalBar: ' + goalBar);
+  console.log('RightScoreBar: ' + scoreBar);
+  console.log('flag is: '+ flag);
+  $(rightArrow4Game).html(arrow);
+  $(rightGoalBar4Game).html(goalBar);
+  $(rightScoreBar4Game).html(scoreBar);
+  $(rightFlag4Game).html(flag);
+  $(ra4g).val(arrow);
+  $(rgb4g).val(goalBar);
+  $(rsb4g).val(scoreBar);
+  $(rf4g).val(flag);
+   rightIsInput=true;
+   isReadyToSetup();
+}); // #teamRight listener.
+
+/////////img tag builders /////////////
+var getFlag= function(side, ndx){
+   var name= 'flag'+side;
+   return '<img id="' + name + '" name="' + name + '" class="flag" src ="/Images/'+ flags[ndx-1] +  '" >'
+}//function
+var getArrow=function(side,ndx){
+   var arrow = 'Arrow'+ side;
+   var src=arrow + arrows[ndx-1];
+   return '<img id="' + arrow +'" src="/Images/' + src + '.png" >';
+}//function
+var getScoreBar=function(side,ndx){
+   var scoreBar = 'scoreBar'+ side;
+   var src=scoreBars[ndx-1] + 'ScoreBar.png' ;
+   return '<img id="' + scoreBar  +'" class="scoreBar" src="/Images/' + src + ' " >';
+}//function
+var getGoalBar=function(side,ndx){
+   var bar = 'goalBar'+ side;
+   var src=scoreBars[ndx-1] + 'ScoreBar.png' ;
+   return '<img id="' + bar  +'" src="/Images/' + src + ' " >';
+}//function
+
+var isReadyToSetup= function(){
+   
+   if( sizeIsInput && leftIsInput && rightIsInput){
+   $('.button').prop('disabled', false);
+   //alert('Just enabled the setup game button.')
+}
+}
+});//end ready function
+  </script>
+</body>
+</html>

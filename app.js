@@ -8,28 +8,15 @@ var express = require('express')
 //  app.set('images', __dirname + '/public/images');
   var app = express();
   app.use(express.static('public'));
-  app.ballPositions= ["-349px","-116px","163px","454px","676px" ];
-  var startingPossession = (Math.random()<0.5)? -1 : 1;
-  console.log('StartingPossession: ' + startingPossession )
-  var params= {
-   'name' : 'Americas Cup of English' 		// <%= name %>
-   ,'remaining':100				//<%=remaining%> 
-   , scoreA : 0					//<%=scoreA%>
-   , scoreB : 0					//<%=scoreB%>
-   ,'team' : 1					//'<%=team%>'
-   ,'mode' : 1					//'<%=mode%>'
-   ,'questionA': "What is the opposite of Tall?"//'<%=questionA%>'
-   , answerA: 'The opposite of Tall is Short.'	//'<%=answerA%>'
-   , ballLocation: 2				//<%=ballLocation%>
-   , pxpos: app.ballPositions[2]		//'<%=pxpos%>'
-   , ballDirection : startingPossession		//<%=ballDirection%>
-   , leftArrowIsVisible :(startingPossession<0)?1:0			//<%=leftArrowIsVisible%>'
-   , rightArrowIsVisible :(startingPossession>0)?1:0 			//<%=rightArrowIsVisible%>'
- };
+  app.ballPositions= ["50px", "264px","560px","862px","1078px" ];
+
+
   console.log()
   console.log('*************************************************')
   console.log('OS arch:' + JSON.stringify(os.arch()));
   console.log('process.platform :' + JSON.stringify(process.platform));
+  console.log('Path: ' + __filename );
+
   console.log('*************************************************')
   console.log()
 
@@ -44,7 +31,7 @@ var express = require('express')
 
   // display the main screen with the links to choices of action.	
    app.get('/', function(req, res){
-     res.render('football', params);
+     res.render('setup', {name: 'Americas Cup of English'});
    });
 
 
