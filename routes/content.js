@@ -62,7 +62,9 @@ var constants4Game=function(req){
   c4game.leftScoreBar = req.body.leftScoreBar4Game;
   c4game.rightScoreBar = req.body.rightScoreBar4Game;
   c4game.leftGoalBar4Game = req.body.leftGoalBar4Game;
-  c4game.rightGoalBar4Game = req.body.rightGoalBar4Game;
+  c4game.rightScoreBar = req.body.rightScoreBar4Game;
+  c4game.leftCountry = req.body.leftCountry;
+  c4game.rightCountry = req.body.rightCountry;
 return c4game;
 }
 this.gameSetUp = function(req, res, next){
@@ -77,8 +79,9 @@ console.log('Entered function gameSetUp()');
            // From the game setup page.
            var count = asNumber(req.body.remaining);
            var c4g = constants4Game(req);
-           console.log('c4g is: ' + JSON.stringify(c4g));
-           console.log('Entered displayMainPage with:'      
+           //console.log('c4g is: ' + JSON.stringify(c4g));
+           /* ----------------------
+               console.log('Entered displayMainPage with:'      
                +  '\nleftArrow: '+ c4g.leftArrow 
                +  '\nright Arrow: ' + c4g.rightArrow 
                +  '\nleftScoreBar: '+ c4g.leftScoreBar 
@@ -87,7 +90,7 @@ console.log('Entered function gameSetUp()');
                +  '\nrightGoalBar: ' + c4g.rightGoalBar4Game 
                +  '\nleftFlag: '+ c4g.leftFlag 
                +  '\nrightFlag: ' + c4g.rightFlag );                
-   
+   ---------------------------------- */
             // Render the game display to explain the rules and show example question and answer.
             return res.render('football', 
               {
@@ -113,6 +116,8 @@ console.log('Entered function gameSetUp()');
                 , rightFlag4Game : c4g.rightFlag
 		, leftArrow4Game : c4g.leftArrow 
                 , rightArrow4Game : c4g.rightArrow
+		, leftCountry : c4g.leftCountry 
+                , rightCountry : c4g.rightCountry
               }
             );
  }//function
@@ -121,7 +126,7 @@ console.log('Entered function gameSetUp()');
  this.changePossession = function(req, res, next) {
         "use strict";
          var c4g = constants4Game(req);
-       console.log('In changePossession, c4g is: ' + JSON.stringify(c4g));
+       //console.log('In changePossession, c4g is: ' + JSON.stringify(c4g));
            var leftScore =asNumber(req.body.leftScore);
            var rightScore =asNumber(req.body.rightScore);  
            var count = asNumber(req.body.remaining);// This will be a number between 100 and 0. If it is less than 1, the game is over
@@ -129,7 +134,7 @@ console.log('Entered function gameSetUp()');
            var ballDirection = asNumber(req.body.ballDirection);
            var team = asNumber(req.body.team);
            var mode = asNumber(req.body.mode);
-           var title, question, answer;
+           var question, answer;
            //purpose of call is to change direction of ball movement.
            ballDirection = -ballDirection;
            console.log('...Changed possession. New ballDirection is: ' + ballDirection + ' with ballLocation: ' + ballLocation );
@@ -157,32 +162,24 @@ console.log('Entered function gameSetUp()');
                 , rightFlag4Game     : c4g.rightFlag
                 , leftArrow4Game     : c4g.leftArrow
                 , rightArrow4Game    : c4g.rightArrow
+		, leftCountry : c4g.leftCountry 
+                , rightCountry : c4g.rightCountry
                }
            );
          
  }//function
-//This function will move the ball to the next location and decrements remaining question count by 1. 
+//This function will move the ball to the next location and blank out question and answer textboxes. 
  this.advanceBall = function(req, res, next) {
         "use strict";
-           var question, answer, title;
+           var question, answer ;
            var c4g = constants4Game(req);
-       console.log('In advanceBall , c4g is: ' + JSON.stringify(c4g));
-
            var count = asNumber(req.body.remaining);
- console.log('3. count: '+ count);
            var leftScore =asNumber(req.body.leftScore);
- console.log('1. leftScore: '+leftScore);
            var rightScore =asNumber(req.body.rightScore);
- console.log('2. rightScore: '+ rightScore);
            var ballLocation = asNumber(req.body.ballLocation);
- console.log('5. ballLocation: '+ ballLocation );
- console.log('5a. pxpos: '+ ballPositions[ballLocation] );
            var ballDirection = asNumber(req.body.ballDirection);
- console.log('4. ballDirection: '+ ballDirection );
            var team = asNumber(req.body.team);
- console.log('6. team: '+ team );
            var mode = asNumber(req.body.mode);
- console.log('7. mode: '+ mode );
 
            //Advance the ball in the direction of ball position.
            if( ballDirection === 1){
@@ -226,6 +223,8 @@ console.log('Entered function gameSetUp()');
          , rightFlag4Game : c4g.rightFlag
          , leftArrow4Game : c4g.leftArrow
          , rightArrow4Game : c4g.rightArrow
+         , leftCountry : c4g.leftCountry 
+         , rightCountry : c4g.rightCountry
           }; 
 
     return res.render('football',params );
@@ -233,29 +232,19 @@ console.log('Entered function gameSetUp()');
   this.displayQuestion = function(req, res, next) {
          "use strict";
        var c4g= constants4Game(req);
-       console.log('In displayQuestion, c4g is: ' + JSON.stringify(c4g));
+       //console.log('In displayQuestion, c4g is: ' + JSON.stringify(c4g));
 
              var leftScore =asNumber(req.body.leftScore);
- console.log('1. leftScore: '+leftScore);
              var rightScore =asNumber(req.body.rightScore);
- console.log('2. rightScore: '+ rightScore);
-
              var count = asNumber(req.body.remaining);
- console.log('3. count: '+ count);
              var ballDirection = asNumber(req.body.ballDirection);
- console.log('4. ballDirection: '+ ballDirection );
              var ballLocation = asNumber(req.body.ballLocation);
- console.log('5. ballLocation: '+ ballLocation );
              var team = asNumber(req.body.team);
- console.log('6. team: '+ team );
              var mode = asNumber(req.body.mode);
- console.log('7. mode: '+ mode );
              var title, question, answer, item;
-       console.log('Entered displayQuestion with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count );
-
  
                count--; //for index of next question.
-               if(count<1){
+               if(count<2){
                  title= 'Americas Cup of English Is Over!!!';
                  question = 'Great game!!!';
                  answer = 'You are all winners!!!';
@@ -263,11 +252,10 @@ console.log('Entered function gameSetUp()');
                }else{
                  item =getByCount(count);
                  if(item === null) throw({error: 'item is not found at count: ' + count})
-                 console.log('returned item: ' + JSON.stringify(item));
                  title= 'Americas Cup of English';
                  question = item.q;
                  answer = 'Do not show until answered.';
-               console.log('Entered displayQuestion with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count + ' question: ' +  item.q );
+                 console.log('Entered displayQuestion with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count + ' question: ' +  item.q );
              }
             return res.render('football', {
                    name : title
@@ -292,13 +280,15 @@ console.log('Entered function gameSetUp()');
                  , rightFlag4Game : c4g.rightFlag
                  , leftArrow4Game : c4g.leftArrow
                  , rightArrow4Game : c4g.rightArrow
+                 , leftCountry : c4g.leftCountry 
+                 , rightCountry : c4g.rightCountry
             }
             ); //render
  }//function
  this.displayAnswer = function(req, res, next) {
         "use strict";
             var c4g= constants4Game(req);
-       console.log('In displayAnswer, c4g is: ' + JSON.stringify(c4g));
+//       console.log('In displayAnswer, c4g is: ' + JSON.stringify(c4g));
 
             var count = asNumber(req.body.remaining);
             var leftScore =asNumber(req.body.leftScore);
@@ -335,6 +325,8 @@ console.log('Entered function gameSetUp()');
                 , rightFlag4Game : c4g.rightFlag
                 , leftArrow4Game : c4g.leftArrow
                 , rightArrow4Game : c4g.rightArrow
+                , leftCountry : c4g.leftCountry 
+                , rightCountry : c4g.rightCountry
            }
            ); //render
 }//function  

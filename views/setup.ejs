@@ -98,22 +98,22 @@
 </table>
 </form>
      <div id="arrows">
-         <img id="leftArrow" src="/Images/ArrowLeftA.png" >
-         <img id="rightArrow" src="/Images/ArrowRightC.png" >
-         <img id="leftArrow" src="/Images/ArrowLeftB.png" >
-         <img id="rightArrow" src="/Images/ArrowRightM.png" >
+         <img id="leftArrow" src="/images/ArrowLeftA.png" >
+         <img id="rightArrow" src="/images/ArrowRightC.png" >
+         <img id="leftArrow" src="/images/ArrowLeftB.png" >
+         <img id="rightArrow" src="/images/ArrowRightM.png" >
      </div>
      <div id="flags">
-         <img class="flag" id="BA" src="/Images/BanderaArgentina.png" >
-         <img class="flag" id="BC" src="/Images/BanderaChile.png">
-         <img class="flag" id="BB" src="/Images/BanderaBrasil.png" >
-         <img class="flag" id="BM" src="/Images/BanderaMexico.png">
+         <img class="flag" id="BA" src="/images/BanderaArgentina.png" >
+         <img class="flag" id="BC" src="/images/BanderaChile.png">
+         <img class="flag" id="BB" src="/images/BanderaBrasil.png" >
+         <img class="flag" id="BM" src="/images/BanderaMexico.png">
      </div>
      <div id="scoreBars">
-         <img class="scoreBar" src="/Images/ArgentinaScoreBar.png">
-         <img class="scoreBar" src="/Images/ChileScoreBar.png">
-         <img class="scoreBar" src="/Images/BrasilScoreBar.png">
-         <img class="scoreBar" src="/Images/MexicoScoreBar.png">
+         <img class="scoreBar" src="/images/ArgentinaScoreBar.png">
+         <img class="scoreBar" src="/images/ChileScoreBar.png">
+         <img class="scoreBar" src="/images/BrasilScoreBar.png">
+         <img class="scoreBar" src="/images/MexicoScoreBar.png">
     <div>
 </div>
       <input type="hidden" id= "name" name="name" value="Americas Cup of English"/> 
@@ -125,6 +125,8 @@
       <input type="hidden" id= "rf4g" name="rightFlag4Game" value=""/> 
       <input type="hidden" id= "rsb4g" name="rightScoreBar4Game" value=""/> 
       <input type="hidden" id= "rgb4g" name="rightGoalBar4Game" value=""/> 
+      <input type="hidden" id= "leftCountry" name="leftCountry" value=""/> 
+      <input type="hidden" id= "rightCountry" name="rightCountry" value=""/> 
       <div id='buttons'>
      <input type="submit" class = "button" id="setup" value="Set up game" formaction='/' formmethod="post" formenctype="application/x-www-form-urlencoded" />
 <script>
@@ -136,7 +138,6 @@ var flags= ["BanderaArgentina.png",
             "BanderaMexico.png"
  ];
 var arrows= ["A", "C","B","M",]
-var colors=["#739FC4","#D42E12","#F0B819","#FFFFFF"];
 var scoreBars = ["Argentina", "Chile", "Brasil", "Mexico"];
 var sizeIsInput= leftIsInput=rightIsInput=false;
 $('#gameSize').blur(function(){
@@ -147,6 +148,7 @@ $('#gameSize').blur(function(){
 //////////Left Team dropdown listeners////////////
 $('#teamLeft').on("change", function(){
    var index = $('#teamLeft').val();
+   $('#leftCountry').val(scoreBars[index-1]);
    var arrow = getArrow('Left', index);
    var goalBar = getGoalBar("Left", index);
    var scoreBar = getScoreBar("Left", index);
@@ -173,22 +175,23 @@ $('#teamLeft').on("change", function(){
 /////////////Right Team dropdown listener //////////////
 $('#teamRight').on("change", function(){
   var index = $('#teamRight').val();
+ $('#rightCountry').val(scoreBars[index-1]);
   var flag = getFlag('Right', index);
   var arrow = getArrow('Right', index);
   var scoreBar = getScoreBar("Right", index);
   var goalBar = getGoalBar("Right", index);
   console.log('RightArrow: ' + arrow);
-  console.log('RightGoalBar: ' + goalBar);
   console.log('RightScoreBar: ' + scoreBar);
+  console.log('RightGoalBar: ' + goalBar);
   console.log('flag is: '+ flag);
-  $(rightArrow4Game).html(arrow);
-  $(rightGoalBar4Game).html(goalBar);
-  $(rightScoreBar4Game).html(scoreBar);
-  $(rightFlag4Game).html(flag);
-  $(ra4g).val(arrow);
-  $(rgb4g).val(goalBar);
-  $(rsb4g).val(scoreBar);
-  $(rf4g).val(flag);
+  $('#rightArrow4Game').html(arrow);
+  $('#rightGoalBar4Game').html(goalBar);
+  $('#rightScoreBar4Game').html(scoreBar);
+  $('#rightFlag4Game').html(flag);
+  $('#ra4g').val(arrow);
+  $('#rgb4g').val(goalBar);
+  $('#rsb4g').val(scoreBar);
+  $('#rf4g').val(flag);
    rightIsInput=true;
    isReadyToSetup();
 }); // #teamRight listener.
@@ -196,22 +199,22 @@ $('#teamRight').on("change", function(){
 /////////img tag builders /////////////
 var getFlag= function(side, ndx){
    var name= 'flag'+side;
-   return '<img id="' + name + '" name="' + name + '" class="flag" src ="/Images/'+ flags[ndx-1] +  '" >'
+   return '<img id="' + name + '" name="' + name + '" class="flag" src ="/images/'+ flags[ndx-1] +  '" >'
 }//function
 var getArrow=function(side,ndx){
    var arrow = 'Arrow'+ side;
    var src=arrow + arrows[ndx-1];
-   return '<img id="' + arrow +'" src="/Images/' + src + '.png" >';
+   return '<img id="' + arrow +'" src="/images/' + src + '.png" >';
 }//function
 var getScoreBar=function(side,ndx){
    var scoreBar = 'scoreBar'+ side;
    var src=scoreBars[ndx-1] + 'ScoreBar.png' ;
-   return '<img id="' + scoreBar  +'" class="scoreBar" src="/Images/' + src + ' " >';
+   return '<img id="' + scoreBar  +'" class="scoreBar" src="/images/' + src + '">';
 }//function
 var getGoalBar=function(side,ndx){
-   var bar = 'goalBar'+ side;
+   var goalBar = 'goalBar'+ side;
    var src=scoreBars[ndx-1] + 'ScoreBar.png' ;
-   return '<img id="' + bar  +'" src="/Images/' + src + ' " >';
+   return '<img id="' + goalBar  + '" class = "goalBar"  src="/images/' + src + '">';
 }//function
 
 var isReadyToSetup= function(){
@@ -221,7 +224,7 @@ var isReadyToSetup= function(){
    //alert('Just enabled the setup game button.')
 }
 }
-});//end ready function
+});//end $(document).ready(function()...
   </script>
 </body>
 </html>
