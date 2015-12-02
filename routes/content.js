@@ -249,7 +249,7 @@ console.log('Entered function gameSetUp()');
                  title= 'Americas Cup of English Is Over!!!';
                  question = 'Great game!!!';
                  answer = 'You are all winners!!!';
-                 ballDirection = (scoreB-scoreA)/Math.abs(scoreB-scoreA);
+                // ballDirection = (scoreB-scoreA)/Math.abs(scoreB-scoreA);
                }else{
                  item =getByCount(count);
                  if(item === null) throw({error: 'item is not found at count: ' + count})
