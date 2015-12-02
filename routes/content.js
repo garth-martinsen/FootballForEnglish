@@ -61,7 +61,8 @@ var constants4Game=function(req){
   c4game.rightArrow = req.body.rightArrow4Game;
   c4game.leftScoreBar = req.body.leftScoreBar4Game;
   c4game.rightScoreBar = req.body.rightScoreBar4Game;
-  c4game.leftGoalBar4Game = req.body.leftGoalBar4Game;
+  c4game.goalBarLeft4Game = req.body.goalBarLeft4Game;
+  c4game.goalBarRight4Game = req.body.goalBarRight4Game;
   c4game.rightScoreBar = req.body.rightScoreBar4Game;
   c4game.leftCountry = req.body.leftCountry;
   c4game.rightCountry = req.body.rightCountry;
@@ -86,8 +87,8 @@ console.log('Entered function gameSetUp()');
                +  '\nright Arrow: ' + c4g.rightArrow 
                +  '\nleftScoreBar: '+ c4g.leftScoreBar 
                +  '\nrightScoreBar: ' + c4g.rightScoreBar 
-               +  '\nleftGoalBar: '+ c4g.leftGoalBar4Game 
-               +  '\nrightGoalBar: ' + c4g.rightGoalBar4Game 
+               +  '\nleftGoalBar: '+ c4g.goalBarLeft4Game 
+               +  '\nrightGoalBar: ' + c4g.goalBarRight4Game 
                +  '\nleftFlag: '+ c4g.leftFlag 
                +  '\nrightFlag: ' + c4g.rightFlag );                
    ---------------------------------- */
@@ -110,8 +111,8 @@ console.log('Entered function gameSetUp()');
 
                 , leftScoreBar4Game : c4g.leftScoreBar
                 , rightScoreBar4Game : c4g.rightScoreBar
-                , leftGoalBar4Game: c4g.leftGoalBar4Game
-                , rightGoalBar4Game: c4g.rightGoalBar4Game
+                , goalBarLeft4Game: c4g.goalBarLeft4Game
+                , goalBarRight4Game: c4g.goalBarRight4Game
 		, leftFlag4Game : c4g.leftFlag 
                 , rightFlag4Game : c4g.rightFlag
 		, leftArrow4Game : c4g.leftArrow 
@@ -156,8 +157,8 @@ console.log('Entered function gameSetUp()');
 
                 , leftScoreBar4Game  : c4g.leftScoreBar
                 , rightScoreBar4Game : c4g.rightScoreBar
-                , leftGoalBar4Game   : c4g.leftGoalBar4Game
-                , rightGoalBar4Game  : c4g.rightGoalBar4Game
+                , goalBarLeft4Game   : c4g.goalBarLeft4Game
+                , goalBarRight4Game  : c4g.goalBarRight4Game
                 , leftFlag4Game      : c4g.leftFlag
                 , rightFlag4Game     : c4g.rightFlag
                 , leftArrow4Game     : c4g.leftArrow
@@ -217,8 +218,8 @@ console.log('Entered function gameSetUp()');
 
          , leftScoreBar4Game : c4g.leftScoreBar
          , rightScoreBar4Game : c4g.rightScoreBar
-         , leftGoalBar4Game: c4g.leftGoalBar4Game
-         , rightGoalBar4Game: c4g.rightGoalBar4Game
+         , goalBarLeft4Game: c4g.goalBarLeft4Game
+         , goalBarRight4Game: c4g.goalBarRight4Game
          , leftFlag4Game : c4g.leftFlag
          , rightFlag4Game : c4g.rightFlag
          , leftArrow4Game : c4g.leftArrow
@@ -244,7 +245,7 @@ console.log('Entered function gameSetUp()');
              var title, question, answer, item;
  
                count--; //for index of next question.
-               if(count<2){
+               if(count<1){
                  title= 'Americas Cup of English Is Over!!!';
                  question = 'Great game!!!';
                  answer = 'You are all winners!!!';
@@ -274,8 +275,8 @@ console.log('Entered function gameSetUp()');
 
                  , leftScoreBar4Game : c4g.leftScoreBar
                  , rightScoreBar4Game : c4g.rightScoreBar
-                 , leftGoalBar4Game: c4g.leftGoalBar4Game
-                 , rightGoalBar4Game: c4g.rightGoalBar4Game
+                 , goalBarLeft4Game: c4g.goalBarLeft4Game
+                 , goalBarRight4Game: c4g.goalBarRight4Game
                  , leftFlag4Game : c4g.leftFlag
                  , rightFlag4Game : c4g.rightFlag
                  , leftArrow4Game : c4g.leftArrow
@@ -319,8 +320,8 @@ console.log('Entered function gameSetUp()');
 
                 , leftScoreBar4Game : c4g.leftScoreBar
                 , rightScoreBar4Game : c4g.rightScoreBar
-                , leftGoalBar4Game: c4g.leftGoalBar4Game
-                , rightGoalBar4Game: c4g.rightGoalBar4Game
+                , goalBarLeft4Game: c4g.goalBarLeft4Game
+                , goalBarRight4Game: c4g.goalBarRight4Game
                 , leftFlag4Game : c4g.leftFlag
                 , rightFlag4Game : c4g.rightFlag
                 , leftArrow4Game : c4g.leftArrow

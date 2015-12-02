@@ -29,7 +29,7 @@ var express = require('express')
     "use strict";
   if(err) throw err;
 
-  // display the main screen with the links to choices of action.	
+  // display the setup screen where teams are chosen and max number of questions is set. 	
    app.get('/', function(req, res){
      res.render('setup', {name: 'Americas Cup of English'});
    });

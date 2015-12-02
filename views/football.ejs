@@ -49,8 +49,8 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
 #flagRight { position: relative; width: 133px; height: 95px;}
 #leftArrowDiv { position: absolute; left: 514px; top: 102px; width: 120px; z-index: <%=leftArrowIsVisible%> }
 #rightArrowDiv { position: absolute; left: 537px; top: 102px; width: 120px;z-index:<%=rightArrowIsVisible%> }
-#leftGoalBarDiv { position: absolute; left: -28px; top: 368px; width: 123px; height: 55px; -webkit-transform: rotate(-90deg); z-index: 2;}
-#rightGoalBarDiv {position: absolute; left: 1055px;top: 372px; width: 123px; height: 55px; -webkit-transform: rotate( 90deg); z-index: 2; }
+#leftGoalBarDiv {position: relative; left: -28px; top: 284px; width: 110px; height: 55px; -webkit-transform: rotate(-90deg); z-index: 2;}
+#rightGoalBarDiv { position: relative; left: 1066px; top: 224px; width: 110px; height: 55px; -webkit-transform: rotate( 90deg); z-index: 2;}
 .goalBar {height:55px;}
 </style>
 </head>
@@ -71,8 +71,8 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
 <input type="hidden" name="rightFlag4Game"      value='<%-rightFlag4Game%>'     />
 <input type="hidden" name="leftCountry"         value='<%-leftCountry%>'        />
 <input type="hidden" name="rightCountry"        value='<%-rightCountry%>'       />
-<input type="hidden" name="leftGoalBar4Game"   value='<%-leftGoalBar4Game%>'  />
-<input type="hidden" name="rightGoalBar4Game"  value='<%-rightGoalBar4Game%>' />
+<input type="hidden" name="goalBarLeft4Game"   value='<%-goalBarLeft4Game%>'  />
+<input type="hidden" name="goalBarRight4Game"  value='<%-goalBarRight4Game%>' />
 
 <H1 id='title'><%= name %></H1>
 <div id="leftArrowDiv"> </div>
@@ -151,10 +151,9 @@ $('#leftArrowDiv').html( '<%-leftArrow4Game%>');
 $('#rightArrowDiv').html('<%-rightArrow4Game%>');
 $('#leftFlagDiv').html('<%-leftFlag4Game%>'); 
 $('#rightFlagDiv').html('<%-rightFlag4Game%>'); 
-setTimeout(function(){
-$('#leftGoalBarDiv' ).html('<%-leftGoalBar4Game%>'); 
-$('#rightGoalBarDiv').html('<%-rightGoalBar4Game%>');
-}, 1000);
+$('#leftGoalBarDiv' ).html('<%-goalBarLeft4Game%>'); 
+$('#rightGoalBarDiv').html('<%-goalBarRight4Game%>');
+
 var q = $('#question_A').val() ;
 if(q.length>1) { 
  setTimeout(function(){

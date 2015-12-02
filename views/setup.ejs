@@ -3,22 +3,26 @@
 
 <!---------- passed in parameters -----------
  1.                   name : 'Americas Cup of English'
- 2.                 , remaining: gameSize
- 3.                 , scoreA : leftScoreBar
- 4.                 , scoreB : rightScoreBar
- 5.                 , leftFlag : leftFlag
- 6.                 , rightFlag : rightFlag
- 7.                 , leftArrow : leftArrow
- 8.                 , rightArrow : rightArrow
- 9.                 , team: ''
+ 2.                  , remaining: gameSize
+ 3.                  , leftScore : leftScore
+ 4.                  , rightScore : rightScore
+ 5.                  , leftFlag : leftFlag
+ 6.                  , rightFlag : rightFlag
+ 7.                  , leftArrow : leftArrow
+ 8.                  , rightArrow : rightArrow
+ 9.                  , team: ''
  10.                 , mode: ''
- 11.                 ,'questionA': "Example: What is the opposite of Tall?"
- 12.                 , answerA: 'Example: The opposite of Tall is Short.'
+ 11.                 , questionA: "Example: What is the opposite of Tall?"
+ 12.                 , answerA:   'Example: The opposite of Tall is Short.'
  13.                 , ballLocation: ballLocation
- 14.                , pxpos: ballPositions[ballLocation]
+ 14.                 , pxpos: ballPositions[ballLocation]
  15.                 , ballDirection : ballDirection
  16.                 , leftArrowIsVisible:(ballDirection>0)? 0 : 1
  17.                 , rightArrowIsVisible : (ballDirection>0)? 1 : 0
+ 18.                 , goalBarLeft4Game : goalBarLeft4Game
+ 19.                 , goalBarRight4Game : goalBarRight4Game
+ 20.                 , teamLeft:'Brasil' 
+ 21.                 , teamRight: 'Mexico'
                 }
 
 -----------end passed in parameters -------->
@@ -78,7 +82,7 @@
     </select> 
   </td>
 <td id="leftArrow4Game" > </td>
-<td id="leftGoalBar4Game" > </td>
+<td id="goalBarLeft4Game" > </td>
 <td id= "leftScoreBar4Game" > </td>
 <td id= "leftFlag4Game" >  </td>
 <tr>
@@ -92,7 +96,7 @@
     </select>
  </td>
 <td  id="rightArrow4Game" > </td>
-<td id="rightGoalBar4Game" > </td>
+<td id="goalBarRight4Game" > </td>
 <td id= "rightScoreBar4Game"  name="rightScoreBar4Game" >  </td>
 <td id= "rightFlag4Game" name="rightFlag4Game">   </td>
 </table>
@@ -119,12 +123,12 @@
       <input type="hidden" id= "name" name="name" value="Americas Cup of English"/> 
       <input type="hidden" id= "la4g" name="leftArrow4Game" value=""/> 
       <input type="hidden" id= "lsb4g" name="leftScoreBar4Game" value=""/> 
-      <input type="hidden" id= "lgb4g" name="leftGoalBar4Game" value=""/> 
+      <input type="hidden" id= "lgb4g" name="goalBarLeft4Game" value=""/> 
       <input type="hidden" id= "lf4g" name="leftFlag4Game" value=""/> 
       <input type="hidden" id= "ra4g" name="rightArrow4Game" value=""/> 
       <input type="hidden" id= "rf4g" name="rightFlag4Game" value=""/> 
       <input type="hidden" id= "rsb4g" name="rightScoreBar4Game" value=""/> 
-      <input type="hidden" id= "rgb4g" name="rightGoalBar4Game" value=""/> 
+      <input type="hidden" id= "rgb4g" name="goalBarRight4Game" value=""/> 
       <input type="hidden" id= "leftCountry" name="leftCountry" value=""/> 
       <input type="hidden" id= "rightCountry" name="rightCountry" value=""/> 
       <div id='buttons'>
@@ -159,7 +163,7 @@ $('#teamLeft').on("change", function(){
    console.log('Left flag is: '+ flag);
    // populate the table for visual feedback  
    $('#leftArrow4Game').html(arrow);
-   $('#leftGoalBar4Game').html(goalBar);
+   $('#goalBarLeft4Game').html(goalBar);
    $('#leftScoreBar4Game').html(scoreBar);
 
    // populate the hidden variables which are passed to game view.
@@ -185,7 +189,7 @@ $('#teamRight').on("change", function(){
   console.log('RightGoalBar: ' + goalBar);
   console.log('flag is: '+ flag);
   $('#rightArrow4Game').html(arrow);
-  $('#rightGoalBar4Game').html(goalBar);
+  $('#goalBarRight4Game').html(goalBar);
   $('#rightScoreBar4Game').html(scoreBar);
   $('#rightFlag4Game').html(flag);
   $('#ra4g').val(arrow);
@@ -214,7 +218,8 @@ var getScoreBar=function(side,ndx){
 var getGoalBar=function(side,ndx){
    var goalBar = 'goalBar'+ side;
    var src=scoreBars[ndx-1] + 'ScoreBar.png' ;
-   return '<img id="' + goalBar  + '" class = "goalBar"  src="/images/' + src + '">';
+   var name= goalBar + '4Game';
+   return '<img id="' + goalBar  + '" name= "' + name + '" class = "goalBar"  src="/images/' + src + '">';
 }//function
 
 var isReadyToSetup= function(){
