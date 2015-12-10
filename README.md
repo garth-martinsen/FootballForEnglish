@@ -4,7 +4,7 @@ and opposing team answers incorrectly.
 When the ball is in a goal, just after scoring, the team may advance the ball by answering a question correctly. 
 There is no opportunity to stop this advancement by the other team. So basically the team with the ball continues to try
 until they get a correct answer, at which time the ball will advance. 
-Opponent may block an advance by answering correctly a question in english.
+For all other ball positions, opponent may block an advance by answering correctly a question in english.
 Possessor and Opponent are asked questions until ball advances or changes direction.
 Possessor loses the ball to the Opponent upon giving two incorrect answers while opponent answers correctly twice.
 When this occurs the administrator presses the "Change Possession" Button which switches the Arrows to show new direction.
