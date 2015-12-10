@@ -92,7 +92,7 @@ H1 { text-align: center; width:1000px; font-size: 2.17em;    margin-left: 200px;
       <div id="scores" >
       </div>
          <div id="QA" class="contest" >
-           <select id="team" name="team" >
+           <select id="team" name="team" autofocus>
              <option id="leftCountry"  value="1"></option>
              <option id="rightCountry" value="2"></option>
             </select> 
@@ -250,6 +250,7 @@ var setArrowVisibility= function(ballDirection){
  $('#rightArrow').css('z-index', (ballDirection>0)? 2 :0 );
 }//function
 var setBallPosition= function(ballLocation){
+// $("ball").animate({left: ballPositions[ballLocation]});
   $('#ball').css('left', ballPositions[ballLocation]);
 }//function
 var setScores=function(leftIndex, rightIndex){
