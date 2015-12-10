@@ -1,20 +1,15 @@
 /*----------- File: routes/content.js---------------*/
  var ObjectId = require('mongodb').ObjectID;
-
+ var request = require('request');
  var EnglishQuestionsDAO =   require('./englishQuestions').EnglishQuestionsDAO
  ,   PlayersDAO =   require('./players').PlayersDAO
  var   sanitize = require('validator').sanitize // Helper to sanitize form input;
  ,   allQuestions, allPlayers, questionA, answerA ;
 var $ = require('jquery');
-
 /* ---------------The ContentHandler must be constructed with a connected db -------- */
 
+      var c4g = new Map;
       var byCount= new Map;
-      // will need to modify following, if Brasil participates.
-      var teams=new Map;
-      teams.set(1, 'Chile');
-      teams.set(-1, 'Argentina');
-      teams.set(0, 'Tie');
 function ContentHandler (db, url, ballPositions) {
     "use strict";
      console.log('Entered contentHandler with db, url, ballPositions'); 
@@ -53,46 +48,18 @@ var getByCount=function(cnt){
 } //function
 var asNumber=function (str){ return Number(str.match(/[-0-9]*/g)[0]);
 } //function
-var constants4Game=function(req){
- var c4game ={};
-  c4game.leftFlag = req.body.leftFlag4Game;
-  c4game.rightFlag = req.body.rightFlag4Game;
-  c4game.leftArrow = req.body.leftArrow4Game;
-  c4game.rightArrow = req.body.rightArrow4Game;
-  c4game.leftScoreBar = req.body.leftScoreBar4Game;
-  c4game.rightScoreBar = req.body.rightScoreBar4Game;
-  c4game.goalBarLeft4Game = req.body.goalBarLeft4Game;
-  c4game.goalBarRight4Game = req.body.goalBarRight4Game;
-  c4game.rightScoreBar = req.body.rightScoreBar4Game;
-  c4game.leftCountry = req.body.leftCountry;
-  c4game.rightCountry = req.body.rightCountry;
-return c4game;
-}
-this.gameSetUp = function(req, res, next){
-console.log('Entered function gameSetUp()');
-}//function
- this.displayMainPage = function(req, res, next) {
+this.displayMainPage = function(req, res, next) {
         "use strict";
            var ballLocation = 2; //midfield.
-          //random draw determines ball direction.
+          //random draw determines ball direction at start of game.
            var ballDirection = (Math.random()<0.5)? -1 : 1; //   startingPossession 
            console.log('StartingPossession: ' + ballDirection )
-           // From the game setup page.
            var count = asNumber(req.body.remaining);
-           var c4g = constants4Game(req);
-           //console.log('c4g is: ' + JSON.stringify(c4g));
-           /* ----------------------
-               console.log('Entered displayMainPage with:'      
-               +  '\nleftArrow: '+ c4g.leftArrow 
-               +  '\nright Arrow: ' + c4g.rightArrow 
-               +  '\nleftScoreBar: '+ c4g.leftScoreBar 
-               +  '\nrightScoreBar: ' + c4g.rightScoreBar 
-               +  '\nleftGoalBar: '+ c4g.goalBarLeft4Game 
-               +  '\nrightGoalBar: ' + c4g.goalBarRight4Game 
-               +  '\nleftFlag: '+ c4g.leftFlag 
-               +  '\nrightFlag: ' + c4g.rightFlag );                
-   ---------------------------------- */
-            // Render the game display to explain the rules and show example question and answer.
+           var leftIndex = asNumber(req.body.leftIndex);
+           var rightIndex = asNumber(req.body.rightIndex);
+           console.log(' leftIndex: '+ leftIndex + ' rightIndex: ' + rightIndex + ' remaining: ' +count + ' leftScore: '+ 0 + ' rightScore: ' +0) 
+           console.log( ' ballLocation: ' + ballLocation + ' ballDirection: ' + ballDirection);
+           // Render the game display to explain the rules and show example question and answer.
             return res.render('football', 
               {
                   name : 'Americas Cup of English'
@@ -104,21 +71,9 @@ console.log('Entered function gameSetUp()');
                 ,'questionA': "Example: What is the opposite of Tall?"
                 , answerA: 'Example: The opposite of Tall is Short.'
                 , ballLocation: ballLocation
-                , pxpos: ballPositions[ballLocation]
                 , ballDirection : ballDirection
-                , leftArrowIsVisible:(ballDirection>0)? 0 : 1 
-                , rightArrowIsVisible : (ballDirection>0)? 1 : 0
-
-                , leftScoreBar4Game : c4g.leftScoreBar
-                , rightScoreBar4Game : c4g.rightScoreBar
-                , goalBarLeft4Game: c4g.goalBarLeft4Game
-                , goalBarRight4Game: c4g.goalBarRight4Game
-		, leftFlag4Game : c4g.leftFlag 
-                , rightFlag4Game : c4g.rightFlag
-		, leftArrow4Game : c4g.leftArrow 
-                , rightArrow4Game : c4g.rightArrow
-		, leftCountry : c4g.leftCountry 
-                , rightCountry : c4g.rightCountry
+                , leftIndex : leftIndex
+                , rightIndex : rightIndex
               }
             );
  }//function
@@ -126,8 +81,8 @@ console.log('Entered function gameSetUp()');
 // a change of direction, or change of possession no longer displays the next question. The next question is displayed only upon pressing the button "question"
  this.changePossession = function(req, res, next) {
         "use strict";
-         var c4g = constants4Game(req);
-       //console.log('In changePossession, c4g is: ' + JSON.stringify(c4g));
+           var leftIndex = asNumber(req.body.leftIndex);
+           var rightIndex = asNumber(req.body.rightIndex);
            var leftScore =asNumber(req.body.leftScore);
            var rightScore =asNumber(req.body.rightScore);  
            var count = asNumber(req.body.remaining);// This will be a number between 100 and 0. If it is less than 1, the game is over
@@ -137,44 +92,38 @@ console.log('Entered function gameSetUp()');
            var mode = asNumber(req.body.mode);
            var question, answer;
            //purpose of call is to change direction of ball movement.
-           ballDirection = -ballDirection;
-           console.log('...Changed possession. New ballDirection is: ' + ballDirection + ' with ballLocation: ' + ballLocation );
+           if(ballLocation === 0 || ballLocation === 4){ 
+             console.log('You cannot change possession when the ball is in a goal.');
+           } else {
+             ballDirection = -ballDirection;
+             console.log('...Changed possession. New ballDirection is: ' + ballDirection + ' with ballLocation: ' + ballLocation );
+           }
+// Render Change Possession
            return res.render('football', 
                {  
                   name : 'Americas Cup of English'
-                , remaining : count
-                , leftScore : leftScore
-                , rightScore : rightScore
-                , team : team
-                , mode : mode
-                , questionA : '' 
-                , answerA : '' 
-                , ballLocation : ballLocation
-                , pxpos : ballPositions[ballLocation]
+                , remaining: count
+                , leftScore: leftScore
+                , rightScore: rightScore
+                , team: team 
+                , mode: mode 
+                ,'questionA': ''
+                , answerA: ''
+                , ballLocation: ballLocation
                 , ballDirection : ballDirection
-                , leftArrowIsVisible :(ballDirection>0)? 0 : 1 
-                , rightArrowIsVisible : (ballDirection>0)? 1 : 0
-
-                , leftScoreBar4Game  : c4g.leftScoreBar
-                , rightScoreBar4Game : c4g.rightScoreBar
-                , goalBarLeft4Game   : c4g.goalBarLeft4Game
-                , goalBarRight4Game  : c4g.goalBarRight4Game
-                , leftFlag4Game      : c4g.leftFlag
-                , rightFlag4Game     : c4g.rightFlag
-                , leftArrow4Game     : c4g.leftArrow
-                , rightArrow4Game    : c4g.rightArrow
-		, leftCountry : c4g.leftCountry 
-                , rightCountry : c4g.rightCountry
+                , leftIndex : leftIndex
+                , rightIndex : rightIndex
                }
            );
          
  }//function
-//This function will move the ball to the next location and blank out question and answer textboxes. 
+//This function will move the ball to the next location and clear text from textboxes for question and answer . 
  this.advanceBall = function(req, res, next) {
         "use strict";
            var question, answer ;
-           var c4g = constants4Game(req);
            var count = asNumber(req.body.remaining);
+           var leftIndex =asNumber(req.body.leftIndex);
+           var rightIndex =asNumber(req.body.rightIndex);
            var leftScore =asNumber(req.body.leftScore);
            var rightScore =asNumber(req.body.rightScore);
            var ballLocation = asNumber(req.body.ballLocation);
@@ -191,50 +140,38 @@ console.log('Entered function gameSetUp()');
              console.log('Error. BallDirection is: ' + ballDirection);}
            //After moving check if ball is in Goal. If so, change direction and increment score.
            if(ballLocation === 0 && ballDirection===-1){
+               console.log('Goal!!!');
                leftScore++;
                ballDirection = -ballDirection;
-               console.log('Goal!!!');
            } 
            else if(ballLocation === 4 && ballDirection===1) {
+               console.log('Goal!!!');
                rightScore++;
                ballDirection = -ballDirection;
-               console.log('Goal!!!');
            }
            console.log('Advanced ball to: ' + ballLocation + ' in direction: ' + ballDirection + ' questionsRemaining: ' + count );
          var  params = {
-           name :'Americas Cup of English' 
-         , remaining : count 
-         , leftScore: leftScore
-         , rightScore: rightScore
-         , team:team
-         , mode: mode
-         ,'questionA': '' 
-         , answerA: '' 
-         , ballLocation : ballLocation 
-         , pxpos : ballPositions[ballLocation] 
-         , ballDirection : ballDirection 
-         , leftArrowIsVisible:(ballDirection>0)? 0 : 1 
-         , rightArrowIsVisible : (ballDirection>0)? 1 : 0
-
-         , leftScoreBar4Game : c4g.leftScoreBar
-         , rightScoreBar4Game : c4g.rightScoreBar
-         , goalBarLeft4Game: c4g.goalBarLeft4Game
-         , goalBarRight4Game: c4g.goalBarRight4Game
-         , leftFlag4Game : c4g.leftFlag
-         , rightFlag4Game : c4g.rightFlag
-         , leftArrow4Game : c4g.leftArrow
-         , rightArrow4Game : c4g.rightArrow
-         , leftCountry : c4g.leftCountry 
-         , rightCountry : c4g.rightCountry
-          }; 
-
+                  name : 'Americas Cup of English'
+                , remaining: count
+                , leftScore: leftScore
+                , rightScore: rightScore
+                , team: team 
+                , mode: mode 
+                ,'questionA': ''
+                , answerA: ''
+                , ballLocation: ballLocation
+                , ballDirection : ballDirection
+                , leftIndex : leftIndex
+                , rightIndex : rightIndex
+        }; 
+// Render Ball Advancement.
     return res.render('football',params );
  }//function
   this.displayQuestion = function(req, res, next) {
          "use strict";
-       var c4g= constants4Game(req);
-       //console.log('In displayQuestion, c4g is: ' + JSON.stringify(c4g));
 
+             var leftIndex =asNumber(req.body.leftIndex);
+             var rightIndex =asNumber(req.body.rightIndex);
              var leftScore =asNumber(req.body.leftScore);
              var rightScore =asNumber(req.body.rightScore);
              var count = asNumber(req.body.remaining);
@@ -258,40 +195,30 @@ console.log('Entered function gameSetUp()');
                  answer = 'Do not show until answered.';
                  console.log('Entered displayQuestion with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count + ' question: ' +  item.q );
              }
-            return res.render('football', {
-                   name : title
-                 , remaining:count
-                 , leftScore: leftScore
-                 , rightScore: rightScore
-                 , team:team
-                 , mode	:mode	
-                 , questionA:question
-                 , answerA:answer
-                 , ballLocation: ballLocation
-                 , pxpos: ballPositions[ballLocation]
-                 , ballDirection: ballDirection
-                 , leftArrowIsVisible: (ballDirection>0)? 0 : 1
-                 , rightArrowIsVisible : (ballDirection>0)? 1 : 0
-
-                 , leftScoreBar4Game : c4g.leftScoreBar
-                 , rightScoreBar4Game : c4g.rightScoreBar
-                 , goalBarLeft4Game: c4g.goalBarLeft4Game
-                 , goalBarRight4Game: c4g.goalBarRight4Game
-                 , leftFlag4Game : c4g.leftFlag
-                 , rightFlag4Game : c4g.rightFlag
-                 , leftArrow4Game : c4g.leftArrow
-                 , rightArrow4Game : c4g.rightArrow
-                 , leftCountry : c4g.leftCountry 
-                 , rightCountry : c4g.rightCountry
+ //Render Show Next Question
+            return res.render('football', 
+                 {
+                  name : 'Americas Cup of English'
+                , remaining: count
+                , leftScore: leftScore
+                , rightScore: rightScore
+                , team: team 
+                , mode: mode 
+                ,'questionA': question
+                , answerA: ''
+                , ballLocation: ballLocation
+                , ballDirection : ballDirection
+                , leftIndex : leftIndex
+                , rightIndex : rightIndex
             }
             ); //render
  }//function
  this.displayAnswer = function(req, res, next) {
         "use strict";
-            var c4g= constants4Game(req);
-//       console.log('In displayAnswer, c4g is: ' + JSON.stringify(c4g));
 
             var count = asNumber(req.body.remaining);
+            var leftIndex =asNumber(req.body.leftIndex);
+            var rightIndex =asNumber(req.body.rightIndex);
             var leftScore =asNumber(req.body.leftScore);
             var rightScore =asNumber(req.body.rightScore);
             var ballDirection = asNumber(req.body.ballDirection);
@@ -303,6 +230,7 @@ console.log('Entered function gameSetUp()');
            var item = getByCount(count);
            if(item === null) throw({error: 'item is not found at count: ' + count})
            console.log('Entered displayAnswer with ball at: ' + ballLocation + ' direction: ' + ballDirection + ' timer: ' + count + ' answer: ' + item.a);
+ //Render Show Answer
            return res.render('football', {
                   name : 'Americas Cup of English'
                 , remaining: count
@@ -313,22 +241,10 @@ console.log('Entered function gameSetUp()');
                 , questionA:item.q 
                 , answerA:item.a 
                 , ballLocation: ballLocation
-                , pxpos: ballPositions[ballLocation] 
                 , ballDirection: ballDirection
-                , leftArrowIsVisible: (ballDirection>0)? 0 : 1
-                , rightArrowIsVisible : (ballDirection>0)? 1 : 0
-
-                , leftScoreBar4Game : c4g.leftScoreBar
-                , rightScoreBar4Game : c4g.rightScoreBar
-                , goalBarLeft4Game: c4g.goalBarLeft4Game
-                , goalBarRight4Game: c4g.goalBarRight4Game
-                , leftFlag4Game : c4g.leftFlag
-                , rightFlag4Game : c4g.rightFlag
-                , leftArrow4Game : c4g.leftArrow
-                , rightArrow4Game : c4g.rightArrow
-                , leftCountry : c4g.leftCountry 
-                , rightCountry : c4g.rightCountry
-           }
+                , leftIndex : leftIndex
+                , rightIndex : rightIndex
+              }
            ); //render
 }//function  
 console.log('Finished contentHandler.')

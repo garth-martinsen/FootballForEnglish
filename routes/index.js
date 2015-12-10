@@ -1,10 +1,11 @@
  var  ContentHandler = require('./content')
+ var request = require('request');
+
 // This file must be edited. Now it is only a placeholder.
 
 function routes (app, db) {
     console.log('Entered index.js function.')
     var contentHandler = new ContentHandler(db, app.url, app.ballPositions);
-    app.get('/', contentHandler.gameSetUp);
 
    app.post('/', contentHandler.displayMainPage);
    app.post('/possession', contentHandler.changePossession);

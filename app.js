@@ -4,7 +4,8 @@ var express = require('express')
   , bodyParser = require('body-parser')
   , compression = require('compression')
   , cookieSession = require('cookie-session')
-  , os = require('os');
+  , os = require('os')
+  , request = require('request');
 //  app.set('images', __dirname + '/public/images');
   var app = express();
   app.use(express.static('public'));
