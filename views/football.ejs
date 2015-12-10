@@ -234,7 +234,7 @@ var oneTick=function () {
     $('#seconds').val(s);
     console.log('time: ' + s);
     var t = setTimeout(function(){ 
-       if(s> 0){
+       if(s> 0 && <%=remaining %> > 0 ){
          oneTick();} 
        else{
        beep.play();
