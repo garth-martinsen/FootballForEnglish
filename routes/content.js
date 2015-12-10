@@ -1,6 +1,5 @@
 /*----------- File: routes/content.js---------------*/
  var ObjectId = require('mongodb').ObjectID;
- var request = require('request');
  var EnglishQuestionsDAO =   require('./englishQuestions').EnglishQuestionsDAO
  ,   PlayersDAO =   require('./players').PlayersDAO
  var   sanitize = require('validator').sanitize // Helper to sanitize form input;
