@@ -189,6 +189,13 @@ if(q.length>1) {
    $("#start").trigger("click"); 
 }, 2000);
 }
+if(<%=remaining %> < 1 ) {
+   $('.button').prop('disabled', true);
+   $('#title').html( 'Americas Cup of English Is Over!!!');
+   $('#question_A').val( 'Great game!!!');
+   $('#answer_A').val('You are all winners!!!');
+
+}
 $(document).keyup( function(event){
 console.log('Key was: ' + event.which)
 if(81 === event.which) { 

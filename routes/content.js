@@ -180,13 +180,13 @@ this.displayMainPage = function(req, res, next) {
              var mode = asNumber(req.body.mode);
              var title, question, answer, item;
  
-               count--; //for index of next question.
                if(count<1){
                  title= 'Americas Cup of English Is Over!!!';
                  question = 'Great game!!!';
                  answer = 'You are all winners!!!';
                 // ballDirection = (scoreB-scoreA)/Math.abs(scoreB-scoreA);
                }else{
+                 count--; //for index of next question.
                  item =getByCount(count);
                  if(item === null) throw({error: 'item is not found at count: ' + count})
                  title= 'Americas Cup of English';
@@ -197,14 +197,14 @@ this.displayMainPage = function(req, res, next) {
  //Render Show Next Question
             return res.render('football', 
                  {
-                  name : 'Americas Cup of English'
+                  name : title
                 , remaining: count
                 , leftScore: leftScore
                 , rightScore: rightScore
                 , team: team 
                 , mode: mode 
                 ,'questionA': question
-                , answerA: ''
+                , answerA: answer 
                 , ballLocation: ballLocation
                 , ballDirection : ballDirection
                 , leftIndex : leftIndex
