@@ -1,0 +1,114 @@
+<!--File: layout.ejs -->
+
+<!DOCTYPE html>
+
+<html lang="en"
+
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+<style>
+#game {width: 1500px; height:600px; position:relative; }
+
+ #leftSideBar { width: 300px; height: 700px; background-color: cyan;}
+   #clock { position: relative; top: 0px; left: 0px; height: 60px; width: 100%;font-size:xx-large; background-color: yellow; }
+   #falta { font-size: inherit; width: 70px; text-align: center; }
+   #scores {width:100%; height:100px; position:relative; top:8px; left:0px; background-color: green; }
+   #question  {position: relative; left: 3px; top: 15px; height: 200px; width: 98%; font-size: x-large; background-color: yellow; }
+    .q_a {position:relative;top: 5px; width:100%; height:95%; font-size:x-large;}
+   #questionA {position: relative; }  
+   #answer_A {color: white;}
+   #timer30 { position: relative; top: 25px; height: 50px; background-color: pink; }
+   #seconds {width: 1.5em; margin-top: .4em; font-size: large;}
+   #answer {position: relative; left: 3px; top: 25px; height: 200px; width: 98%; background-color: orange; }
+   #showAnswer { position: relative; left: 3px; top: 36px; height: 50px; background-color: lightgreen; padding-top: 10px;}
+   #showRespose {position: relative: left: 0px; top: 0px;  height: 30pz;}
+   #grade { position: absolute; left: 0px; top: 700px; width: 300px; height: 48px; background-color: lightgreen; padding-top: 10px; }
+
+ #rightSide { position: relative; left: 300px; top: -699px;width: 1297px; height: 757px; background-color: lightgreen;}
+   #title {position:relative; left: 100px; height: 60px; width: 1200px; background-color: lightgreen;font-size: xx-large;}
+   #buttons { position: relative; left: 510px; top: -27px; width: 214px; height: 34px; z-index: 2; background-color: lightblue; }
+     .button {margin:2px;background-color:lightgrey}
+   #field {position: absolute; left: 100px; top: 83px; width: 1175px; height: 600px; background-color: #90EE90; }
+    .fld { position: relative; top: -18px; height: 640px; margin-left: -5px; }
+   #ball { position: absolute; left: 520px; top: 283px; width: 30px; height: 30px; } 
+   #trackDiv { position: relative;left: 100px; top: 612px; width: 1200px; height: 66px; background-color:cyan; }
+     #track {  position: relative; left:  1px; top: 1px; }
+
+</style>
+</head>
+<body>
+<div id="game">
+  <div id="leftSideBar">
+    <div id="clock">Clock:<input type="text" id="falta" name="remaining"  value ='<%=remaining %>' width= 50px readonly >  </div>
+    <div id="scores">        </div>
+    <div id="question">
+      <input  type='submit' class = "button" id="quest" value="Question" formaction='/question' formmethod="post" formenctype="application/x-www-form-urlencoded" />
+      </br>
+       <textArea id="question_A" name="questionA" class= "q_a" font-size="x-large" rows="10" cols="15" ><%=questionA %> </textArea>
+    </div>
+    <div id="timer30">
+       Timer: <input type="text" id="seconds" value=''+30 readonly>
+    </div>
+    <div id="answer">
+      <textArea id="answer_A" name="answerA" class= "q_a" rows="10" cols="15"><%=answerA %> </textArea>
+    </div>
+    <div id="showAnswer">
+       <button id="showResponse" class="button" >Show Answer</button>
+    </div>
+    <div id="grade">
+       <select id="team" name="team" autofocus>
+           <option id="leftCountry"  value="0">leftCountry</option>
+           <option id="rightCountry" value="1">rightCountry</option>
+       </select>
+
+       <select id="mode" name="mode" >
+           <option value="1" >Advance</option>
+           <option value="2" >Possess</option>
+       </select>
+
+       <select id="rightWrong" name="rightWrong" >
+           <option value="0" >Right</option>
+           <option value="1" >Wrong</option>
+       </select>
+       <input type='submit' id="saveGrade" class="button" value="add" formaction='/updateTrack' formmethod="post" formenctype="application/x-www-form-urlencoded" />
+   </div>
+</div>
+  <div id="rightSide">
+    <div id="title">Americas Cup of English</div>
+    <div id='buttons'>
+     <input type="submit" class="button" id="dir" value="Change Possession" formaction='/possession' formmethod="post" formenctype="application/x-www-form-urlencoded"/>
+     <input type="submit" class = "button" id="adv" value="Advance Ball" formaction='/advance' formmethod="post" formenctype="application/x-www-form-url    encoded" />
+    </div>
+
+    <div id="field">
+       <img class="fld" id="quarterfieldA" src="quarterFieldA.png">
+       <img class="fld" id="midfield" src="midField.png">
+       <img class="fld" id="quarterfieldD" src="quarterFieldD.png">
+       <img  id="ball" src="ball.png">
+    </div>
+    <div id="trackDiv">
+      <table id="track" border="1px">
+        <tr id="leftTeamq">
+          <td id="leftTeamName" class= "trackName" >Argentina</td>
+        </tr>
+        <tr id="rightTeamq">
+          <td id="rightTeamName" class= "trackName" >Brazil</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<script>
+ var state=1;
+ var answerColor = ['#FFFFFF','#000000'];
+$(document).ready( function () {
+ $('#showResponse').click(function(){
+  state = state ^ 1;
+ //  alert('Clicked showResponse.');
+  $('#answer_A').css('color', answerColor[state]);
+});
+
+});
+</script>
+</body>
+
