@@ -7,11 +7,11 @@
     "body-parser": "^1.13.3",
     "compression": "^1.5.2",
     "cookie-session": "^1.2.0",
-    "ejs": "^1.0.0",
+    "ejs": "^2.5.5",
     "express": "^4.13.3",
     "jquery": "^3.0.0",
     "mongodb": "^2.0.45",
-    "validator": "^4.1.0"
+    "validator": "^9.4.1"
   },
   "author": "Garth Martinsen",
   "license": "GPL-3.0",
