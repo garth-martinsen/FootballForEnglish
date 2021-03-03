@@ -17,5 +17,5 @@ Displaying a Response to the question will halt the timer and restart it, as wil
 Upon timeout or a response to the question, the administrator can show the answer by pressing the Response Button. 
 This gives feedback to the players on the question, whether they answered correctly or not. 
 The important part of this game is not to win but to have fun learning english.
-
+[![Known Vulnerabilities](https://snyk.io/test/github/garth-martinsen/FootballForEnglish/badge.svg?targetFile=package.json)](https://snyk.io/test/github/garth-martinsen/FootballForEnglish?targetFile=package.json)
 
